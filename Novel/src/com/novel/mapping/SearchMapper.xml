@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.novel.dao.SearchMapper" >
+  <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="32" readOnly="true" />
+  
+  <resultMap id="BaseResultMap" type="Search">
+  	<result column="id" property="id" jdbcType="INTEGER" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="resultcount" property="resultcount" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIME" />
+    <result column="times" property="times" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectAllTimes" resultType="INTEGER" useCache="true" flushCache="false">
+  	select count(*) from search
+  </select>
+  
+  <select id="selectTimesByDay" resultMap="BaseResultMap" parameterType="Date" useCache="true" flushCache="false">
+  	select id, keyword, resultcount, time, count(*) as times from search group by time having time > #{time, jdbcType=TIME} order by times
+  </select>
+  
+  <sql id="Base_Column_List">
+  	id, keyword, resultcount, time
+  </sql>
+  
+	<insert id="batchInsert" flushCache="false">
+		insert into search ( <include refid="Base_Column_List" /> ) 
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+		    (null, #{item.keyword}, #{item.resultcount}, #{item.time})
+		</foreach>
+	</insert>
+	
+	<update id="batchUpdate" parameterType="java.util.List" flushCache="false">
+      <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update search 
+            <set>
+            	<if test="item.keyword != null">
+            		keyword = #{item.keyword},
+            	</if>
+            	<if test="item.resultcount != null">
+            		resultcount = #{item.resultcount},
+            	</if>
+            	<if test="item.time != null">
+            		time = #{item.time},
+            	</if>
+            </set>
+            where id = #{item.id}
+     </foreach>
+    </update>
+</mapper>

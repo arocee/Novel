@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <classPathEntry location="d:/mysql-jdbc.jar"/>  
+  <context id="context1" >
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/novel" userId="root" password="abc123" />
+    <javaModelGenerator targetPackage="com.novel.model" targetProject="Novel/src" />
+    <sqlMapGenerator targetPackage="com.novel.mapping" targetProject="Novel/src" />
+    <javaClientGenerator targetPackage="com.novel.dao" targetProject="Novel/src" type="XMLMAPPER" />
+    <table schema="" tableName="type" domainObjectName="Type"
+     enableCountByExample="true" enableDeleteByExample="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" 
+     enableInsert="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="true"></table>
+     
+    <table schema="" tableName="article" domainObjectName="Article"
+     enableCountByExample="true" enableDeleteByExample="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" 
+     enableInsert="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="true"></table>
+     
+    <table schema="" tableName="section" domainObjectName="Section"
+     enableCountByExample="true" enableDeleteByExample="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" 
+     enableInsert="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="true"></table>
+     
+    <table schema="" tableName="paragraph" domainObjectName="Paragraph"
+     enableCountByExample="true" enableDeleteByExample="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true" 
+     enableInsert="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="true"></table>
+  </context>
+</generatorConfiguration>

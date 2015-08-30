@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.novel.dao.TypeMapper" >
+  <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="32" readOnly="true" />
+  
+  <resultMap id="BaseResultMap" type="Type" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <collection property="articles" column="tid" resultMap="com.novel.dao.ArticleMapper.BaseResultMap" columnPrefix="art_"></collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, type
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" useCache="true" flushCache="false">
+    select 
+    <include refid="Base_Column_List" />
+    from type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" useCache="true">
+    select t.id, t.type, a.id as art_id, a.article as art_article 
+    from type t inner join article a on t.id = a.tid
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" flushCache="false">
+    delete from type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="Type" useGeneratedKeys="true" keyProperty="id" flushCache="false">
+    insert into type (type)
+    values (#{type,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="Type" flushCache="false">
+    update type
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="Type" flushCache="false">
+    update type
+    set type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

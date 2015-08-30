@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.novel.dao.PvMapper" >
+  <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="2000" readOnly="true" />
+  
+  <resultMap id="BaseResultMap" type="Pv">
+  	<result column="id" property="id" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIME" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="times" property="times" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="selectCountMap" type="PvCountVo">
+  	<result column="fc" property="fc" jdbcType="INTEGER" />
+  	<result column="bc" property="bc" jdbcType="INTEGER" />
+  	<result column="uc" property="uc" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectAllTimes" parameterType="Integer" resultType="INTEGER" useCache="true" flushCache="false">
+  	select count(*) from pv where type = #{type}
+  </select>
+  
+  <select id="selectTimesByDay" resultMap="BaseResultMap" useCache="true" flushCache="false">
+  	select id, url, type, time, ip, count(*) as times from pv where type= #{type} group by time having time > #{time} order by times
+  </select>
+  
+  <select id="selectCount" resultMap="selectCountMap" useCache="true" flushCache="false">
+  	SELECT 
+		f.fc AS fc, b.bc AS bc, u.uc AS uc 
+	FROM 
+		(SELECT COUNT(*) AS fc FROM pv where type = 0) AS f,
+		(SELECT COUNT(*) AS bc FROM pv where type = 1) AS b,
+		(SELECT COUNT(*) AS uc FROM user) AS u,
+  </select>
+  
+  <sql id="Base_Column_List">
+  	url, type, time, ip 
+  </sql>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="PV" flushCache="false">
+  	insert into pv ( <include refid="Base_Column_List" /> ) values
+  	 (#{url}, #{type}, #{time}, #{ip})
+  </insert>
+  
+	<insert id="batchInsert" useGeneratedKeys="true" parameterType="java.util.List" flushCache="false">
+		insert into pv ( <include refid="Base_Column_List" /> ) 
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+		    (#{item.url}, #{item.type}, #{item.time}, #{item.ip})
+		</foreach>
+	</insert>
+	
+	<update id="batchUpdate" parameterType="java.util.List" flushCache="false">
+      <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update pv 
+            <set>
+            	<if test="item.url != null">
+            		url = #{item.url},
+            	</if>
+            	<if test="item.type != null">
+            		type = #{item.type},
+            	</if>
+            	<if test="item.time != null">
+            		time = #{item.time},
+            	</if>
+            	<if test="item.ip != null">
+            		ip = #{item.ip},
+            	</if>
+            </set>
+            where id = #{item.id}
+     </foreach>
+    </update>
+</mapper>
