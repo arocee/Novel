@@ -8,32 +8,46 @@
     <result column="keyword" property="keyword" jdbcType="VARCHAR" />
     <result column="resultcount" property="resultcount" jdbcType="INTEGER" />
     <result column="time" property="time" jdbcType="TIME" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
     <result column="times" property="times" jdbcType="INTEGER" />
   </resultMap>
   
+  <!-- <resultMap type="SearchVo" id="SearchVoMap">
+  	<result column="keyword" property="keyword" />
+  	<result column="times" property="times" />
+  	<result column="resultcount" property="resultcount" />
+  </resultMap> -->
+  
   <select id="selectAllTimes" resultType="INTEGER" useCache="true" flushCache="false">
-  	select count(*) from search
+  	SELECT COUNT(*) FROM search
   </select>
   
-  <select id="selectTimesByDay" resultMap="BaseResultMap" parameterType="Date" useCache="true" flushCache="false">
-  	select id, keyword, resultcount, time, count(*) as times from search group by time having time > #{time, jdbcType=TIME} order by times
+  <select id="selectTimesByDay" resultMap="BaseResultMap" parameterType="java.util.List" useCache="true" flushCache="false">
+  	SELECT keyword, resultcount, DATE_FORMAT(time,'%Y-%m-%d') AS date, COUNT(*) AS times 
+	FROM (SELECT * FROM search WHERE time BETWEEN #{starttime} AND #{endtime} ORDER BY time) AS st 
+	GROUP BY keyword ORDER BY times DESC LIMIT 20
+  </select>
+  
+  <select id="selectTimesAll" resultMap="BaseResultMap" parameterType="java.util.List" useCache="true" flushCache="false">
+  	SELECT keyword, resultcount, DATE_FORMAT(time,'%Y-%m-%d') AS date, COUNT(*) AS times 
+	FROM search GROUP BY TO_DAYS(time), keyword ORDER BY times DESC LIMIT 20
   </select>
   
   <sql id="Base_Column_List">
-  	id, keyword, resultcount, time
+  	keyword, resultcount, time
   </sql>
   
-	<insert id="batchInsert" flushCache="false">
-		insert into search ( <include refid="Base_Column_List" /> ) 
-		values 
+	<insert id="batchInsert" useGeneratedKeys="true" parameterType="java.util.List" flushCache="false">
+		INSERT INTO search ( <include refid="Base_Column_List" /> ) 
+		VALUES 
 		<foreach collection="list" item="item" index="index" separator=",">
-		    (null, #{item.keyword}, #{item.resultcount}, #{item.time})
+		    (#{item.keyword}, #{item.resultcount}, #{item.time})
 		</foreach>
 	</insert>
 	
 	<update id="batchUpdate" parameterType="java.util.List" flushCache="false">
       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update search 
+            UPDATE search 
             <set>
             	<if test="item.keyword != null">
             		keyword = #{item.keyword},
@@ -45,7 +59,7 @@
             		time = #{item.time},
             	</if>
             </set>
-            where id = #{item.id}
+            WHERE id = #{item.id}
      </foreach>
     </update>
 </mapper>

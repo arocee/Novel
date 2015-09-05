@@ -23,8 +23,10 @@
 		<typeAlias type="com.novel.model.Rule" alias="Rule"/>
 		<typeAlias type="com.novel.model.Search" alias="Search"/>
 		<typeAlias type="com.novel.model.Pv" alias="Pv"/>
-		<typeAlias type="com.novel.vo.NoverCountVo" alias="NoverCountVo"/>
+		<typeAlias type="com.novel.vo.NovelCountVo" alias="NovelCountVo"/>
 		<typeAlias type="com.novel.vo.PvCountVo" alias="PvCountVo"/>
+		<typeAlias type="com.novel.vo.PvVo" alias="PvVo"/>
+		<typeAlias type="com.novel.vo.PvDataVo" alias="PvDataVo"/>
 	</typeAliases>
 	
 	<plugins>

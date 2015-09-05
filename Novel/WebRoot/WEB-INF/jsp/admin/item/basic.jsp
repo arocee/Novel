@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <a id='frameTop'></a>
 <div class='infoArticle'>
 	<div class='dataInfo infoSection'>
@@ -14,11 +15,11 @@
 				<th class='more'>&nbsp;</th>
 			</tr>
 			<tr>
-				<td>4</td>
-				<td>40</td>
-				<td>4000</td>
-				<td>4000</td>
-				<td>200</td>
+				<td>${novelCountVo.tc }</td>
+				<td>${novelCountVo.ac }</td>
+				<td>${novelCountVo.sc }</td>
+				<td>${novelCountVo.pc }</td>
+				<td>${novelCountVo.scc }</td>
 				<td></td>
 			</tr>
 		</table>
@@ -32,9 +33,9 @@
 				<th>管理人员</th>
 			</tr>
 			<tr>
-				<td>3000</td>
-				<td>500</td>
-				<td>8</td>
+				<td>${pvCountVo.fc }</td>
+				<td>${pvCountVo.bc }</td>
+				<td>${pvCountVo.uc }</td>
 			</tr>
 		</table>
 		<div class='siteDialog' id='siteDialog'></div>
@@ -43,7 +44,14 @@
 		<h1>搜索信息
 			<select id='countType'>
 				<option value='0'>全部</option>
-				<option value='1' selected="selected">最近7天</option>
+				<c:forEach items="${days }" var="day" varStatus="status">
+					<c:if test="${status.index == fn:length(days) - 1 }">
+						<option value='${status.index + 1 }' selected="selected">${day }</option>
+					</c:if>
+					<c:if test="${status.index != fn:length(days) - 1 }">
+						<option value='${status.index + 1 }'>${day }</option>
+					</c:if>
+				</c:forEach>
 			</select>
 		</h1>
 		<div class='countDialog' id='countDialog'></div>
@@ -100,6 +108,16 @@
 				<td>8</td>
 				<td>2015-08-23</td>
 				<td>后台采用echarts图表，强大的图形化界面让数据一目了然</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>2015-08-30</td>
+				<td>数据统计后台终于通过的测试</td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td>2015-09-1</td>
+				<td>数据统计后台彻底完成，即将把数据填充到前端</td>
 			</tr>
 		</table>
 	</div>

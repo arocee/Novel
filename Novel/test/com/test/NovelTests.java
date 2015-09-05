@@ -2,6 +2,9 @@ package com.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,17 +25,20 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.novel.controller.NovelController;
 import com.novel.dao.ArticleMapper;
+import com.novel.dao.PvMapper;
+import com.novel.dao.SearchMapper;
 import com.novel.model.Article;
+import com.novel.model.Search;
+import com.novel.util.DateHandle;
 import com.novel.util.MD5;
+import com.novel.vo.PvDataVo;
+import com.novel.vo.PvVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)  
 @WebAppConfiguration  
 @ContextConfiguration(locations = { "classpath:applicationContext.xml", "file:C:/Program Files/apache-tomcat-8.0.14/webapps/Novel/WEB-INF/spring-servlet.xml"})  
-//当然 你可以声明一个事务管理 每个单元测试都进行事务回滚 无论成功与否  
 @TransactionConfiguration(defaultRollback = true)  
-//记得要在XML文件中声明事务哦~~~我是采用注解的方式  
 @Transactional  
-
 public class NovelTests {
 	private RequestMappingHandlerAdapter handlerAdapter = new RequestMappingHandlerAdapter();
 	
@@ -42,14 +48,43 @@ public class NovelTests {
 	@Resource
 	private ArticleMapper articleMapper;
 	
+	@Resource
+	private SearchMapper searchMapper;
+	
+	@Resource
+	private PvMapper pvMapper;
+	
 	private final MockHttpServletRequest request = new MockHttpServletRequest();      
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	
 	@Test
 	public void testGetPatchList_1() throws Exception {          
-		//Dao的某个方法   
+		//Dao鐨勬煇涓柟娉�  
 		List<Article> articles = articleMapper.selectList();
 		assertEquals(1, articles.size());
+	}
+	
+	@Test
+	public void testSearchMapper() throws Exception {      
+		List<Search> searches = searchMapper.selectTimesAll();
+		for (Search searchVo : searches) {
+			System.out.println(searchVo.getKeyword());
+			System.out.println(searchVo.getResultcount());
+		}
+	}
+	
+	@Test
+	public void testPvMapper() throws Exception {   
+		//List<Date> list = DateHandle.getBetweenDay(DateHandle.getTheDate(7), DateHandle.getTodayZoreTime());
+		List<PvDataVo> pvDataVoes = pvMapper.selectTimesByDay(DateHandle.getTheDate(7), DateHandle.getTodayZoreTime());
+		for (PvDataVo pvDataVo : pvDataVoes) {
+			System.out.println(pvDataVo.getDate());
+			for (PvVo pvVo : pvDataVo.getPvVo()) {
+				System.out.println(pvVo.getType());
+				System.out.println(pvVo.getResultcount());
+			}
+		}
+		
 	}
 	
 	@Test
@@ -57,7 +92,7 @@ public class NovelTests {
 		request.setRequestURI("/index");          
 		request.setMethod(HttpMethod.POST.name());          
 		//HttpSession session = request.getSession();          
-		//设置 认证信息         
+		//璁剧疆 璁よ瘉淇℃伅         
 		//session.setAttribute(CommonConstants.SESSION_USER_TYPE, 1);          
 		//session.setAttribute(CommonConstants.SESSION_USER_ID, 0);          
 		//session.setAttribute(CommonConstants.SESSION_USER_ACC, "aa1");            
@@ -71,7 +106,9 @@ public class NovelTests {
 	}
 	
 	@Test
-	public void baseTest() {
-		System.out.println(Math.random());
+	public void baseTest() throws Exception {
+		Date date = new Date(1441436858837l);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(df.format(date));
 	}
 }

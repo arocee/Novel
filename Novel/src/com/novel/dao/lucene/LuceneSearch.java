@@ -269,7 +269,7 @@ public class LuceneSearch {
 	 * @throws Exception
 	 */
 	public void initIndexSearcher() throws Exception {
-		// mmseg4j 鏈夊嚑涓� analyzer锛歋impleAnalyzer銆丆omplexAnalyzer銆丮axWordAnalyzer銆丮MSegAnalyzer銆�
+		// mmseg4j impleAnalyzer complexAnalyzer maxWordAnalyzer MSegAnalyzer
 		analyzer = new ComplexAnalyzer();
 		directory = FSDirectory.open(FileSystems.getDefault().getPath("d:/", "Novel-resource", "lucene", "index", "novelIndex"));
 		

@@ -9,17 +9,19 @@ public class Search implements java.io.Serializable {
 	private String keyword;
 	private Integer resultcount;
 	private Date time;
+	private String date; // 格式化日期
 	private Integer times; // 搜索次数
 	
 	public Search(){
 		
 	}
 
-	public Search(Integer id, String keyword, Integer resultcount, Date time) {
+	public Search(Integer id, String keyword, Integer resultcount, String date, Date time) {
 		this.id = id;
 		this.keyword = keyword;
 		this.resultcount = resultcount;
 		this.time = time;
+		this.date = date;
 	}
 
 	public Integer getId() {
@@ -52,6 +54,14 @@ public class Search implements java.io.Serializable {
 
 	public void setTime(Date time) {
 		this.time = time;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Integer getTimes() {

@@ -30,7 +30,7 @@
 				</div>
 				<div class='search'>
 					<form action='/Novel/static/search.html' method="get">
-						<input type='text' class='query' name='keyWords' placeholder='搜索内容' maxlength='15' value='${keyWords!}' />
+						<input type='text' class='query' name='keyWords' placeholder='搜索内容' maxlength='15' value='${keyWords!}' autocomplete="off" />
 						<#if tid??>
 							<input type='hidden' name='tid' value='${tid}' />		 					
 	 					</#if>
@@ -54,6 +54,11 @@
 						</select>
 						<input type='submit' id='search' value='搜索' />
 					</form>
+					<div class='autocom'>
+						<div class='comInner'>
+							<ul></ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

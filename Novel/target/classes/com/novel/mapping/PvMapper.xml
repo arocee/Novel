@@ -18,21 +18,33 @@
   	<result column="uc" property="uc" jdbcType="INTEGER" />
   </resultMap>
   
+  <resultMap type="PvVo" id="PvVoMap">
+  	<result column="type" property="type" />
+  	<result column="times" property="resultcount" />
+  </resultMap>
+  
+  <resultMap type="PvDataVo" id="PvDataResultMap">
+  	<result column="date" property="date" jdbcType="VARCHAR" />
+  	<collection property="pvVo" resultMap="PvVoMap"></collection>
+  </resultMap>
+  
   <select id="selectAllTimes" parameterType="Integer" resultType="INTEGER" useCache="true" flushCache="false">
-  	select count(*) from pv where type = #{type}
+  	SELECT COUNT(*) FROM pv WHERE type = #{type}
   </select>
   
-  <select id="selectTimesByDay" resultMap="BaseResultMap" useCache="true" flushCache="false">
-  	select id, url, type, time, ip, count(*) as times from pv where type= #{type} group by time having time > #{time} order by times
+  <select id="selectTimesByDay" resultMap="PvDataResultMap" useCache="true" flushCache="false">
+  	SELECT type, DATE_FORMAT(time,'%Y-%m-%d') AS date, COUNT(*) AS times 
+	FROM (SELECT * FROM pv WHERE time BETWEEN #{starttime} AND #{endtime} ORDER BY time) AS st 
+	GROUP BY TO_DAYS(time), type ORDER BY date
   </select>
   
   <select id="selectCount" resultMap="selectCountMap" useCache="true" flushCache="false">
   	SELECT 
 		f.fc AS fc, b.bc AS bc, u.uc AS uc 
 	FROM 
-		(SELECT COUNT(*) AS fc FROM pv where type = 0) AS f,
-		(SELECT COUNT(*) AS bc FROM pv where type = 1) AS b,
-		(SELECT COUNT(*) AS uc FROM user) AS u,
+		(SELECT COUNT(*) AS fc FROM pv WHERE type = 0) AS f,
+		(SELECT COUNT(*) AS bc FROM pv WHERE type = 1) AS b,
+		(SELECT COUNT(*) AS uc FROM user) AS u
   </select>
   
   <sql id="Base_Column_List">
@@ -40,13 +52,13 @@
   </sql>
   
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="PV" flushCache="false">
-  	insert into pv ( <include refid="Base_Column_List" /> ) values
+  	INSERT INTO pv ( <include refid="Base_Column_List" /> ) VALUES
   	 (#{url}, #{type}, #{time}, #{ip})
   </insert>
   
 	<insert id="batchInsert" useGeneratedKeys="true" parameterType="java.util.List" flushCache="false">
-		insert into pv ( <include refid="Base_Column_List" /> ) 
-		values 
+		INSERT INTO pv ( <include refid="Base_Column_List" /> ) 
+		VALUES 
 		<foreach collection="list" item="item" index="index" separator=",">
 		    (#{item.url}, #{item.type}, #{item.time}, #{item.ip})
 		</foreach>
@@ -54,7 +66,7 @@
 	
 	<update id="batchUpdate" parameterType="java.util.List" flushCache="false">
       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update pv 
+            UPDATE pv 
             <set>
             	<if test="item.url != null">
             		url = #{item.url},
@@ -69,7 +81,7 @@
             		ip = #{item.ip},
             	</if>
             </set>
-            where id = #{item.id}
+            WHERE id = #{item.id}
      </foreach>
     </update>
 </mapper>

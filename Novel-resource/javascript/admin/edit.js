@@ -1,6 +1,6 @@
 require(['jquery'], function($) {
 
-	var baseUrl = "/Novel/admin";
+	var baseUrl = "/Novel/admin/edit";
 
 	$.ajaxSetup({
 		dataType: 'json',

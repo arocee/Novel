@@ -47,7 +47,7 @@ input:-webkit-autofill {
 .loginWrapper {
 	min-width: 670px;
 	min-height: 690px;
-	background: url(../image/admin/loginBg.jpg) center center no-repeat;
+	background: url(/image/admin/loginBg.jpg) center center no-repeat;
 }
 .mainContent {
 	position: absolute;
@@ -59,7 +59,7 @@ input:-webkit-autofill {
 	width: 660px;
 	height: 175px;
 	margin: 0 auto;
-	background: url(../image/admin/common.png) center top no-repeat;
+	background: url(/image/admin/common.png) center top no-repeat;
 }
 .errorLine {
 	color: #ff0000;
@@ -71,7 +71,7 @@ input:-webkit-autofill {
 	height: 384px;
 	margin: 30px auto;
 	padding: 8px;
-	background: url(../image/admin/loginPanelBg.jpg) left top repeat-x;
+	background: url(/image/admin/loginPanelBg.jpg) left top repeat-x;
 	box-shadow: 0px 0px 20px #666;
 	border-radius: 15px;
 }
@@ -85,7 +85,7 @@ input:-webkit-autofill {
 	width: 316px;
 	height: 71px;
 	margin: 25px auto;
-	background: url(../image/admin/common.png) left -191px no-repeat;
+	background: url(/image/admin/common.png) left -191px no-repeat;
 }
 .controls {
 	width: 80%;
@@ -116,7 +116,7 @@ input:-webkit-autofill {
 	width: 213px;
 	height: 61px;
 	background-color: transparent;
-	background-image: url(../image/admin/common.png);
+	background-image: url(/image/admin/common.png);
 	background-repeat: no-repeat;
 	color: #fff;
 	line-height: 61px;
@@ -146,7 +146,7 @@ input:-webkit-autofill {
 	right: 0;
 	left: 0;
 	top: 39px;
-	bottom: 70px;
+	bottom: 0;
 	background: #71814B;
 }
 .frameLeft {
@@ -170,7 +170,7 @@ input:-webkit-autofill {
 	height: 38px;
 	line-height: 38px;
 	border-bottom: 1px solid #DFDFDF;
-	background: url(../image/hdBg.png) left top repeat-x;
+	background: url(/image/hdBg.png) left top repeat-x;
 	width: 100%;
 }
 .header h1 {
@@ -178,7 +178,7 @@ input:-webkit-autofill {
 	text-indent: -9999px;
 	width: 150px;
 	height: 100%;
-	background: url(../image/tools.png) left -407px no-repeat;
+	background: url(/image/tools.png) left -407px no-repeat;
 	float: left;
 }
 .userinfo {
@@ -206,7 +206,7 @@ input:-webkit-autofill {
     left: 50%;
     bottom: 200px;
     margin-left: 498px;
-    z-index: 1005;
+    z-index: 98;
 	margin-left: 520px;
 	_position: absolute;
 	_bottom: 'auto';
@@ -235,7 +235,7 @@ input:-webkit-autofill {
 	height: 100%;
 	background: #000;
 	opacity: 0.6;
-	z-index: 10;
+	z-index: 99;
 	display: none;
 }
 .loading {
@@ -244,10 +244,10 @@ input:-webkit-autofill {
 	position: fixed;
 	left: 50%;
 	top: 50%;
-	z-index: 11;
+	z-index: 101;
 	display: none;
 	margin: -34px 0 0 -130px;
-	background: url(../image/admin/loading.gif);
+	background: url(/image/admin/loading.gif);
 }
 /* === 左侧菜单 === */
 .frameLeft h2 {
@@ -343,7 +343,7 @@ input:-webkit-autofill {
 	padding-left: 8px;
 	margin-bottom: 5px;
 	color: #fff;
-	background: url(../image/admin/common.png) -55px -520px no-repeat;
+	background: url(/image/admin/common.png) -55px -520px no-repeat;
 }
 .infoSection td, .infoSection th {
 	border: 1px solid #333;
@@ -375,6 +375,7 @@ input:-webkit-autofill {
 	height: 300px;
 	border: 1px solid #333;
 	margin: 10px 0 0;
+	position: relative;
 }
 .countInfo {
 	margin: 30px 0 30px 410px;
@@ -389,6 +390,7 @@ input:-webkit-autofill {
 	height: 385px;
 	width: 440px;
 	border: 1px solid #333;
+	position: relative;
 }
 .developInfo table {
 	width: 100%;
@@ -448,7 +450,7 @@ input:-webkit-autofill {
 	margin: 0 2px;
 	vertical-align: middle;
 	cursor: pointer;
-	background-image: url(../image/admin/edit.png);
+	background-image: url(/image/admin/edit.png);
 	background-repeat: no-repeat;
 }
 .typelist .edit, .articlelist .edit, .sectionlist .edit {
@@ -479,7 +481,7 @@ input:-webkit-autofill {
 }
 .paragraphlist ul a i {
 	display: inline-block;
-	background-image: url(../image/admin/edit.png);
+	background-image: url(/image/admin/edit.png);
 	background-repeat: no-repeat;
 	width: 11px;
 	height: 14px;
@@ -549,7 +551,7 @@ input:-webkit-autofill {
 	top: 50%;
 	margin-left: -125px;
 	background: #fff;
-	z-index: 11;
+	z-index: 100;
 	display: none;
 }
 .editfield h1, .addfield h1 {

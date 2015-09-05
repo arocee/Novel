@@ -10,9 +10,9 @@ import com.novel.model.Search;
 
 @Component("searchMapper")
 public interface SearchMapper {
-
 	Integer selectAllTimes() throws Exception;
-	Search selectTimesByDay(Date time) throws Exception;
+	List<Search> selectTimesAll() throws Exception;
+	List<Search> selectTimesByDay(@Param("starttime")Date startTime, @Param("endtime")Date endTime) throws Exception;
 	Integer batchInsert(@Param("list")List<Search> search) throws Exception;
 	Integer batchUpdate(List<Search> search) throws Exception;
 }

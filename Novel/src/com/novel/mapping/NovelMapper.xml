@@ -14,7 +14,7 @@
     <result column="paragraph" property="paragraph" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap id="selectCountMap" type="NoverCountVo">
+  <resultMap id="selectCountMap" type="NovelCountVo">
   	<result column="tc" property="tc" jdbcType="INTEGER" />
   	<result column="ac" property="ac" jdbcType="INTEGER" />
   	<result column="sc" property="sc" jdbcType="INTEGER" />

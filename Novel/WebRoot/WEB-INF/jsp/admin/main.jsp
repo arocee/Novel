@@ -13,7 +13,7 @@
 		<h1>小说灵感网</h1>
 		<div class='userinfo'>
 			<a href='/Novel/admin/main?page=4'>欢迎你，${sessionScope.user.username }</a> |
-			<a href='/Novel/admin/logout'>退出登录</a>
+			<a href='/Novel/admin/member/logout'>退出登录</a>
 		</div>
 	</div>
 	<div class='frame'>
@@ -52,9 +52,6 @@
 				</c:when>
 			</c:choose>
 		</div>
-	</div>
-	<div class='footer'>
-		<p>novel-inspiration&copy; 2015</p>
 	</div>
 	<div class='cover' id='cover'></div>
 	<div class='editfield dialog' id='editfield'>

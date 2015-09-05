@@ -23,14 +23,15 @@ import com.novel.model.Type;
 import com.novel.service.NovelService;
 
 @Controller
+@RequestMapping(value="/admin/edit")
 public class NovelAdminController {
 	
 	@Resource(name="novelService")
 	private NovelService novelService;
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/main")
-	public ModelAndView admin(Integer page, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="")
+	public ModelAndView editData(Integer page, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("admin/main");
 		List<Type> types = novelService.getTypes();
 		
@@ -42,10 +43,6 @@ public class NovelAdminController {
 		
 		int sid = sections.get(0).getId();
 		List<Paragraph> paragraphes = novelService.getParagraphesBySid(sid);
-		
-		if(page == null) {
-			page = 0;
-		}
 		
 		mav.addObject("page", page);
 		mav.addObject("tid", tid);
@@ -59,7 +56,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/listNovel/easy", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/listNovel/easy", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> Novel(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -114,7 +111,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/addArticle/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/addArticle/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> addArticle(HttpServletRequest request,HttpServletResponse response, Article article) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -137,7 +134,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/updateArticle/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/updateArticle/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> updateArticle(HttpServletRequest request,HttpServletResponse response, Article article) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -159,7 +156,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/deleteArticle/easy", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/deleteArticle/easy", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> deleteArticle(HttpServletRequest request,HttpServletResponse response, Integer aid) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -179,7 +176,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/addSection/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/addSection/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> addSection(HttpServletRequest request,HttpServletResponse response, Section section) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -202,7 +199,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/updateSection/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/updateSection/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> updateSection(HttpServletRequest request,HttpServletResponse response, Section section) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -224,7 +221,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/deleteSection/easy", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/deleteSection/easy", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> deleteSection(HttpServletRequest request,HttpServletResponse response, Integer sid) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -244,7 +241,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/addParagraph/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/addParagraph/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> addParagraph(HttpServletRequest request,HttpServletResponse response, Novel novel) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -277,7 +274,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/updateParagraph/easy", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/updateParagraph/easy", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> updateParagraph(HttpServletRequest request,HttpServletResponse response, Novel novel) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -311,7 +308,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/deleteParagraph/easy", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/deleteParagraph/easy", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> deleteParagraph(HttpServletRequest request,HttpServletResponse response, Integer pid) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -346,7 +343,7 @@ public class NovelAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/resetIndex/easy", method=RequestMethod.GET, produces="application/json")
+	@RequestMapping(value="/resetIndex/easy", method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> resetIndex() throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();

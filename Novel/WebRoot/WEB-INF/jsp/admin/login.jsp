@@ -21,7 +21,7 @@
 			<div class='loginPanel'>
 				<div class='loginPanelInner'>
 					<h2></h2>
-					<form name='loginForm' action='/Novel/admin/login' method="post">
+					<form name='loginForm' action='/Novel/admin/member/login' method="post">
 						<div class='controls'>
 							<label for='username'>用户名：</label><input type='text' name='username' id='username' placeholder='请输入用户名' maxlength='10' />
 							<p class='errorTip' id='userTip'>&nbsp;</p>
@@ -32,7 +32,7 @@
 						</div>
 						<div class='controls'>
 							<input type='submit' value='登录' class='lgBtn' id='sub' />
-							<input type='button' value='退出' class='lgBtn' id='exit' />
+							<input type='reset' value='取消' class='lgBtn' id='exit' />
 						</div>
 					</form>
 				</div>

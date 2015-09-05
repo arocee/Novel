@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.novel.model.Pv;
+import com.novel.model.Search;
 import com.novel.util.Constants;
 
 /**
@@ -43,6 +44,20 @@ public class DataInterceptor extends HandlerInterceptorAdapter  {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		String url = request.getRequestURL().toString();
+		if(url.endsWith("/static/search")) {
+			if(modelAndView.getModel().get("keyWords") == null 
+					|| !((String)modelAndView.getModel().get("pageNow")).equals("0")) {
+				return;
+			}
+			
+			Search search = new Search();
+			search.setKeyword((String) modelAndView.getModel().get("keyWords"));
+			search.setResultcount((Integer)modelAndView.getModel().get("count"));
+			search.setTime(new Date());
+			
+			Constants.searchQueque.add(search);
+		}
 	}
 
 	// 获取用户ip

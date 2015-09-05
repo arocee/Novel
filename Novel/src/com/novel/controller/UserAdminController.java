@@ -26,17 +26,18 @@ import com.novel.model.User;
 import com.novel.service.UserService;
 
 @Controller
+@RequestMapping(value="/admin/member")
 public class UserAdminController {
 
 	@Resource(name="userService")
 	private UserService userService;
 
-	@RequestMapping(value="/admin/member")
+	@RequestMapping(value="")
 	public String member(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "admin/login";
 	}
 	
-	@RequestMapping(value="/admin/login", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@Validated(value={UserLogin.class}) User user, BindingResult bindingResult, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
 		// 如果已经登录
@@ -60,7 +61,7 @@ public class UserAdminController {
 	}
 	
 	@AuthPassport
-	@RequestMapping(value="/admin/reg/easy", produces="application/json")
+	@RequestMapping(value="/reg/easy", produces="application/json")
 	@ResponseBody
 	public Map<String, Object> reg(@Validated(value={UserReg.class}) User user, BindingResult bindingResult, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -108,7 +109,7 @@ public class UserAdminController {
 		return modelMap;
 	}
 	
-	@RequestMapping(value="/admin/logout", method=RequestMethod.GET)
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		session.removeAttribute("user");
 		return "redirect:/admin/member";

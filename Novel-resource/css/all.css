@@ -61,7 +61,7 @@ html, body {
 	height: 38px;
 	line-height: 38px;
 	border-bottom: 1px solid #DFDFDF;
-	background: url(../image/hdBg.png) left top repeat-x;
+	background: url(/image/hdBg.png) left top repeat-x;
 	position: fixed;
 	width: 100%;
 	z-index: 99;
@@ -75,7 +75,7 @@ html, body {
 	text-indent: -9999px;
 	width: 150px;
 	height: 100%;
-	background: url(../image/tools.png) left -407px no-repeat;
+	background: url(/image/tools.png) left -407px no-repeat;
 	float: left;
 }
 .header_inner h1 a {
@@ -239,7 +239,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	color: #249BD8;
-	background: url(../image/tools.png) left -336px no-repeat;
+	background: url(/image/tools.png) left -336px no-repeat;
 }
 .subNav li:hover a {
 	color: #fff;
@@ -279,10 +279,35 @@ html, body {
 	color: transparent;
 	text-indent: -9999px;
 	cursor: pointer;
-	background: url(../image/tools.png) left top no-repeat;
+	background: url(/image/tools.png) left top no-repeat;
 }
 #search:hover {
 	background-position: right top;
+}
+.autocom {
+	width: 200px;
+	border: 1px solid #ccc;
+	border-top: none;
+	position: absolute;
+	left: 14px;
+	top: 34px;
+	box-shadow: 1px 1px 0px #dfdfdf;
+	background: #fff;
+	display: none;
+}
+.comInner li {
+	line-height: 30px;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 0 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.comInner li:hover {
+	background: #2EA7E0;
+	color: #fff;
 }
 .headFix {
 	height: 39px;
@@ -372,7 +397,7 @@ html, body {
 	width: 100px;
 	height: 100px;
 	margin: 10px auto;
-	background-image: url(../image/tools.png);
+	background-image: url(/image/tools.png);
 	background-repeat: no-repeat;
 }
 .intro1 span {
@@ -391,7 +416,7 @@ html, body {
 }
 .detailBody {
 	position: relative;
-	background: url(../image/bdBg.png) left top repeat-y;
+	background: url(/image/bdBg.png) left top repeat-y;
 }
 .sider {
 	width: 120px;
@@ -445,7 +470,7 @@ html, body {
 	text-decoration: underline;
 }
 .paragraphList {
-	background: #CCE3E8;
+	background: #F6F7FB;
 }
 .paragraphList li {
 	padding: 15px 10px;
@@ -465,7 +490,7 @@ html, body {
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background: url(../image/tools.png) -38px top no-repeat;
+	background: url(/image/tools.png) -38px top no-repeat;
 	margin-right: 5px;
 	vertical-align: middle;
 }
@@ -513,7 +538,7 @@ html, body {
 }
 .sorry {
 	height: 500px;
-	background: url(../image/sorry.png) center center no-repeat;
+	background: url(/image/sorry.png) center center no-repeat;
 }
 .searchField {
 	width: 750px;
@@ -550,6 +575,30 @@ html, body {
 	letter-spacing: 5px;
 	vertical-align: middle;
 	cursor: pointer;
+}
+.autocomplete {
+	width: 660px;
+	margin: 0 auto;
+	display: none;
+}
+.completeInner {
+	width: 530px;
+	border: 1px solid #ccc;
+	border-top: none;
+	box-shadow: 1px 1px 0px #dfdfdf;
+}
+.completeInner li {
+	line-height: 36px;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 0 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.completeInner li:hover {
+	background: #2EA7E0;
+	color: #fff;
 }
 /*===404和500页===*/
 .errorBody {

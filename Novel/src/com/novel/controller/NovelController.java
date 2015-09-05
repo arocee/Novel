@@ -23,13 +23,14 @@ import com.novel.util.PropertiesUtil;
 import com.novel.vo.PagerVo;
 
 @Controller
+@RequestMapping("/static")
 public class NovelController {
 	
 	@Resource(name="novelService")
 	private NovelService novelService;
 	
 	@AuthPassport
-	@RequestMapping("/static/index")
+	@RequestMapping("/index")
 	public ModelAndView index() throws Exception {
 		ModelAndView mav = new ModelAndView("index");
 		List<Type> nav = novelService.getTypes();
@@ -38,7 +39,7 @@ public class NovelController {
 	}
 	
 	@AuthPassport
-	@RequestMapping("/static/detail/{tid}/{aid}/{sid}")
+	@RequestMapping("/detail/{tid}/{aid}/{sid}")
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer tid, @PathVariable Integer aid, @PathVariable Integer sid) throws Exception {
 		ModelAndView mav = new ModelAndView("detail");
 		List<Type> nav = novelService.getTypes();
@@ -65,7 +66,7 @@ public class NovelController {
 		return mav;
 	}
 	
-	@RequestMapping("/static/searchIndex")
+	@RequestMapping("/searchIndex")
 	public ModelAndView searchIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("searchIndex");
 		List<Type> nav = novelService.getTypes();
@@ -73,7 +74,7 @@ public class NovelController {
 		return mav;
 	}
 	
-	@RequestMapping("/static/search")
+	@RequestMapping("/search")
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("search");
 		
@@ -145,6 +146,7 @@ public class NovelController {
 		mav.addObject("count", count);
 		mav.addObject("novels", list);
 		mav.addObject("pv", pv);
+		mav.addObject("pageNow", pageNow);
 		mav.addObject("CREATE_HTML", false);
 		return mav;
 	}

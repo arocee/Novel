@@ -1,6 +1,6 @@
 require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], function($, ec) {
 
-	var baseUrl = "/Novel/admin";
+	var baseUrl = "/Novel/admin/data";
 
 	$.ajaxSetup({
 		dataType: 'json',
@@ -15,18 +15,147 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 	});
 
 	// 搜索饼状图
-	var myChart = ec.init(document.getElementById('countDialog'));
-	var option = pie();
-	// 为echarts对象加载数据 
-	myChart.setOption(option);
-
+	var pieChart = ec.init(document.getElementById('countDialog'));
 	// 访问折线图
-	var myChart2 = ec.init(document.getElementById('siteDialog'));
-	var option2 = lineOption();
-	myChart2.setOption(option2);
+	var lineChart = ec.init(document.getElementById('siteDialog'));
 
-	// 折线图
-	function lineOption(){
+	var pieOptions = [], lineOption, days = [];
+
+	/* 初始化 */
+	$.ajax({
+		url: baseUrl + '/diagram',
+		type: 'get',
+		dataType: 'json',
+		data: {
+			date: $('#countType option:selected').text()
+		},
+		beforeSend: function(){
+			$('#countType').attr('disabled', 'disabled');
+			pieChart.showLoading({  
+				text : "图表数据正在努力加载..."  
+			});
+			lineChart.showLoading({  
+				text : "图表数据正在努力加载..."  
+			});
+		},
+		complete: function() {
+			$('#countType').removeAttr('disabled');
+			pieChart.hideLoading(); 
+			lineChart.hideLoading(); 
+		},
+		error: function() {
+			alert('数据加载失败');
+		},
+		success: function(data) {
+			if(data.success) {
+				days = data.days;
+				var	pvDataVoes = data.pvDataVoes, 
+					searches = data.searches;
+
+				// 对日期进行补全
+				$.each(days, function(i, n){
+					if(!pvDataVoes[i] || pvDataVoes[i].date != n) {
+						var pvElem = {
+							date: n,
+							pvVo: [{
+								type: 0,
+								resultcount: 0
+							}, {
+								type: 1,
+								resultcount: 0
+							}]
+						}
+						pvDataVoes.splice(i, 0, pvElem);
+					}
+				});
+
+				lineOption = getLineOption(pvDataVoes);
+				lineChart.setOption(lineOption);
+
+				pieOptions[pieOptions.length - 1] = getPieOption(searches, data.date);
+				pieChart.setOption(pieOptions[pieOptions.length - 1]);
+			} else {
+				alert('数据加载失败');
+			}
+		}
+	});
+
+	$('#countType').change(function(){
+		var index = $(this).val();
+		if(pieOptions[index]) {
+			pieChart.clear();
+			pieChart.setOption(pieOptions[index]);
+			return;
+		}
+
+		$.ajax({
+			url: baseUrl + '/searchdiagram',
+			type: 'get',
+			dataType: 'json',
+			data: {
+				date: $('#countType option:selected').text()
+			},
+			beforeSend: function(){
+				$('#countType').attr('disabled', 'disabled');
+				pieChart.showLoading({  
+					text : "图表数据正在努力加载..."  
+				});
+			},
+			complete: function() {
+				$('#countType').removeAttr('disabled');
+				pieChart.hideLoading(); 
+			},
+			error: function() {
+				alert('数据加载失败');
+			},
+			success: function(data) {
+				if(data.success) {
+					var	searches = data.searches;
+
+					pieOptions[index] = getPieOption(searches, data.date);
+					pieChart.clear();
+					pieChart.setOption(pieOptions[index]);
+				} else {
+					alert('数据加载失败');
+				}
+			}
+		});
+	});
+
+	//折线图
+	function getLineOption(pvData){
+		var d = [], fd = [], bd = [];
+
+		for(var i = 0; i < days.length; i ++) {
+			d.push(days[i].substring(5, 7) + days[i].substring(8));
+		}
+
+		$.each(pvData, function(i, n){
+			if(!n.pvVo[0]) {
+				if(!n.pvVo[1].type) {
+					fd.push(n.pvVo[1].resultcount);
+					bd.push(0);
+				} else {
+					bd.push(n.pvVo[1].resultcount);
+					fd.push(0);
+				}
+			} else if(!n.pvVo[1]){
+				if(!n.pvVo[0].type) {
+					fd.push(n.pvVo[0].resultcount);
+					bd.push(0);
+				} else {
+					bd.push(n.pvVo[0].resultcount);
+					fd.push(0);
+				}
+			} else if(!n.pvVo[1].type) {
+				fd.push(n.pvVo[0].resultcount);
+				bd.push(n.pvVo[1].resultcount);
+			} else {
+				fd.push(n.pvVo[1].resultcount);
+				bd.push(n.pvVo[0].resultcount);
+			}
+		});
+		
 		var option = {
 				tooltip : {
 					trigger: 'axis',
@@ -49,7 +178,7 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 					{
 						type : 'category',
 						boundaryGap : false,
-						data : ['0816', '0817', '0818', '0819', '0820', '0821', '0822']
+						data : d
 					}
 				],
 				yAxis : [
@@ -62,13 +191,13 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 						name:'前台访问量',
 						type:'line',
 						stack: '总量',
-						data:[120, 132, 101, 134, 90, 230, 210]
+						data: fd,
 					},
 					{
 						name:'后台访问量',
 						type:'line',
 						stack: '总量',
-						data:[220, 182, 191, 234, 290, 330, 310]
+						data: bd,
 					}
 				]
 		};
@@ -76,169 +205,56 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 	}
 
 	// 饼状图
-	function pie(){
+	function getPieOption(searchData, date){
+		var d = [];
+
+		$.each(searchData, function(i, n){
+			d.push({
+				value: n.times,
+				name: n.keyword,
+				result: n.resultcount
+			});
+		});
+
+		if(!d.length) {
+			d.push({
+				value: 1,
+				name: '无搜索记录',
+				result: '本日无搜索记录'
+			});
+		}
+
 		var option = {
-			timeline : {
-				data : [
-					'2015-08-16', '2015-08-17', '2015-08-18', '2015-08-19', '2015-08-20',
-					'2015-08-21', '2015-08-22'
-				],
-				label : {
-					formatter : function(s) {
-						return s.slice(5);
-					}
-				},
-				x : '10px',
-				width : '90%',
-				currentIndex : 6
+			title : {
+				text: date,
+				subtext: '(top20)'
 			},
-			options : [
+			tooltip : {
+				trigger: 'item',
+				formatter: function(params,ticket,callback){
+					if(!/^\d+$/.test(params.data.result)) {
+						return params.data.name;
+					}
+					return params.data.name + ':' + params.data.value + '次(' + params[3] + '%)' + '<br />返回结果数：' + params.data.result
+				}
+			},
+			legend: {
+				show: false,
+				data: []
+			},
+			toolbox: {
+				show : false
+			},
+			series : [
 				{
-					title : {
-						text: '最近7天',
-						subtext: '（top20）'
-					},
-					tooltip : {
-						trigger: 'item',
-						formatter: "{b} : {c} ({d}%)"
-					},
-					legend: {
-						show: false,
-						data:['Chrome','Firefox','Safari','IE9+','IE8-','IE10-','IE11-', 'edge']
-					},
-					toolbox: {
-						show : false
-					},
-					series : [
-						{
-							name:'搜索信息（数据纯属虚构）',
-							type:'pie',
-							center: ['50%', '45%'],
-							radius: '50%',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
-				},
-				{
-					series : [
-						{
-							name:'浏览器（数据纯属虚构）',
-							type:'pie',
-							data:[
-								{value: 100,  name:'Chrome'},
-								{value: 50,  name:'Firefox'},
-								{value: 32,  name:'Safari'},
-								{value: 17,  name:'IE9+'},
-								{value: 5, name:'IE8-'},
-								{value: 2, name:'IE10-'},
-								{value: 1, name:'IE11-'},
-								{value: 0, name:'edge'}
-							]
-						}
-					]
+					name: date + '的数据',
+					type: 'pie',
+					center: ['50%', '45%'],
+					radius: '50%',
+					data: d
 				}
 			]
-		};
-
+		}
 		return option;
-	}
+	};
 });
