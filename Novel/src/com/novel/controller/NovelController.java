@@ -2,7 +2,9 @@ package com.novel.controller;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.novel.core.interceptor.AuthPassport;
 import com.novel.model.Article;
 import com.novel.model.Novel;
+import com.novel.model.Search;
 import com.novel.model.Section;
 import com.novel.model.Type;
 import com.novel.service.NovelService;
@@ -72,6 +77,18 @@ public class NovelController {
 		List<Type> nav = novelService.getTypes();
 		mav.addObject("nav", nav);
 		return mav;
+	}
+	
+	@RequestMapping(value="/hotKeywords", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> hotKeywords(String key, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		List<Search> keywords = novelService.getHotestKeyWords(key);
+		modelMap.put("keywords", keywords);
+		modelMap.put("success", true);
+	
+		return modelMap;
 	}
 	
 	@RequestMapping("/search")

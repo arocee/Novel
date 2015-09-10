@@ -8,7 +8,7 @@
 			<form action='/Novel/static/search.html' method="get">
 				<div class='searchForm'>
 					<div class='searchFormInner'>
-						<input type='text' maxlength='15' name='keyWords' class='queryLong' placeholder='搜索内容' autocomplete="off" /><input type='submit' id='searchBig' value='搜索' />
+						<input type='text' maxlength='15' name='keyWords' class='queryLong' id='queryLong' placeholder='搜索内容' autocomplete="off" /><input type='submit' id='searchBig' value='搜索' />
 						<input type='hidden' name='searchType' value='0' />
 					</div>
 					<div class='autocomplete'>

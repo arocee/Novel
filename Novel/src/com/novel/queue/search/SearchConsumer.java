@@ -72,11 +72,13 @@ public class SearchConsumer implements Runnable {
 					if(searchList.size() > 0)
 						dataService.batchInsertSearch(searchList);
 				}
+				
+				Thread.sleep(5);
 			} catch (Exception e) {
 				continue;
 			}
 			
-			maxWaitTimeCache ++;
+			maxWaitTimeCache += 1;
 			if(maxWaitTimeCache > Constants.maxWaitTimeCache) {
 				maxWaitTimeCache = 0;
 				maxWaitTime ++;

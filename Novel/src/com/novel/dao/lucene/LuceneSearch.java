@@ -39,7 +39,7 @@ public class LuceneSearch {
 	private IndexSearcher isearcher;
 	
 	/**
-	 * 绠�鍗曟煡璇�
+	 * 直接查询
 	 * @param words
 	 * @param pageSize
 	 * @param pageNow
@@ -57,7 +57,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑼冨洿鏌ユ壘
+	 * 限定tid查询
 	 * @param words
 	 * @param tid
 	 * @param pageSize
@@ -81,7 +81,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑼冨洿鏌ユ壘
+	 * 限定aid查询
 	 * @param words
 	 * @param aid
 	 * @param pageSize
@@ -105,7 +105,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑼冨洿鏌ユ壘
+	 * 限定sid查询
 	 * @param words
 	 * @param sid
 	 * @param pageSize
@@ -128,6 +128,14 @@ public class LuceneSearch {
 		return resultHandle(booleanQuery, pageNow, pageSize);
 	}
 	
+	/**
+	 * 对结果进行处理
+	 * @param query
+	 * @param pageNow
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
 	private List<Novel> resultHandle(Query query, int pageNow, int pageSize) throws Exception {
 		Sort sort = new Sort(new SortField[]{SortField.FIELD_SCORE ,new SortField("sortId", SortField.Type.INT)});
 		
@@ -159,7 +167,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑾峰彇鏌ヨ鍒扮殑涓暟
+	 * 获取查询条数
 	 * @param words
 	 * @return
 	 * @throws Exception
@@ -177,7 +185,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑾峰彇鏌ヨ鍒扮殑涓暟
+	 * 根据tid获取查询条数
 	 * @param words
 	 * @param tid
 	 * @return
@@ -201,7 +209,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑾峰彇鏌ヨ鍒扮殑涓暟
+	 * 根据aid获取查询条数
 	 * @param words
 	 * @param aid
 	 * @return
@@ -225,7 +233,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑾峰彇鏌ヨ鍒扮殑涓暟
+	 * 根据sid获取查询条数
 	 * @param words
 	 * @param sid
 	 * @return
@@ -249,7 +257,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鑾峰彇鏈夊灏戣褰�
+	 * 查询总条数
 	 * @return
 	 * @throws Exception
 	 */
@@ -265,7 +273,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 瀹炰緥鍖杋nitIndexSearcher
+	 * 初始化IndexSearcher
 	 * @throws Exception
 	 */
 	public void initIndexSearcher() throws Exception {
@@ -279,7 +287,7 @@ public class LuceneSearch {
 	}
 	
 	/**
-	 * 鍏抽棴璧勬簮
+	 * 关闭资源
 	 * @throws Exception
 	 */
 	public void close() throws Exception {

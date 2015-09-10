@@ -1,6 +1,6 @@
 require(['jquery'], function($) {
 
-	var baseUrl = "/Novel/admin/edit";
+	var baseUrl = "/Novel/admin";
 
 	$.ajaxSetup({
 		dataType: 'json',
@@ -87,7 +87,7 @@ require(['jquery'], function($) {
 					alert('字数超过限制');
 					return;
 				}
-				var u = "/addArticle/easy";
+				var u = "/edit/addArticle/easy";
 				var d = "tid=" + tid + "&article=" + encodeURI(name);
 			} else if(addModel == "addSection") {
 				if(!aid || !/^\d+$/.test(aid)) {
@@ -100,7 +100,7 @@ require(['jquery'], function($) {
 					alert('字数超过限制');
 					return;
 				}
-				var u = "/addSection/easy";
+				var u = "/edit/addSection/easy";
 				var d = "aid=" + aid + "&section=" + encodeURI(name);
 			} else if(addModel == "addParagraph") {
 				if(!sid || !/^\d+$/.test(sid)) {
@@ -113,7 +113,7 @@ require(['jquery'], function($) {
 					alert('字数超过限制');
 					return;
 				}
-				var u = "/addParagraph/easy";
+				var u = "/edit/addParagraph/easy";
 				var d = "sid=" + sid + "&paragraph=" + encodeURI(name);
 			}
 
@@ -180,7 +180,7 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeOut();
 					return;
 				}
-				var u = "/updateArticle/easy";
+				var u = "/edit/updateArticle/easy";
 				var d = "id=" + aid + "&article=" + encodeURI(name);
 			} else if(editModel == "editSection") {
 				if(!sid || !/^\d+$/.test(sid)) {
@@ -198,7 +198,7 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeOut();
 					return;
 				}
-				var u = "/updateSection/easy";
+				var u = "/edit/updateSection/easy";
 				var d = "id=" + sid + "&section=" + encodeURI(name);
 			} else if(editModel == "editParagraph") {
 				if(!pid || !/^\d+$/.test(pid)) {
@@ -216,7 +216,7 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeOut();
 					return;
 				}
-				var u = "/updateParagraph/easy";
+				var u = "/edit/updateParagraph/easy";
 				var d = "pid=" + pid + "&paragraph=" + encodeURI(name);
 			}
 
@@ -268,15 +268,15 @@ require(['jquery'], function($) {
 
 			if(list.is('.articlelist')) {
 				var id = $(this).parent('span').get(0).dataset.id;
-				var url = "/deleteArticle/easy";
+				var url = "/edit/deleteArticle/easy";
 				var idd = 'aid';
 			} else if(list.is('.sectionlist')) {
 				var id = $(this).parent('span').get(0).dataset.id;
-				var url = "/deleteSection/easy";
+				var url = "/edit/deleteSection/easy";
 				var idd = 'sid';
 			} else if(list.is('.paragraphlist')) {
 				var id = $(this).parents('li').get(0).dataset.id;
-				var url = "/deleteParagraph/easy"
+				var url = "/edit/deleteParagraph/easy"
 				var idd = 'pid';
 			}
 
@@ -392,7 +392,7 @@ require(['jquery'], function($) {
 		}
 
 		$.ajax({
-			url: baseUrl + '/listNovel/easy',
+			url: baseUrl + '/edit/listNovel/easy',
 			type: 'get',
 			data: idd + '=' + id,
 			error: function(){
@@ -467,7 +467,7 @@ require(['jquery'], function($) {
 	$('#resetindex').click(function(){
 		if(window.confirm('是否重置全文索引？')) {
 			$.ajax({
-				url: baseUrl + "/resetIndex/easy",
+				url: baseUrl + "/edit/resetIndex/easy",
 				type: 'get',
 				beforeSend: function(){
 					$('#cover').stop().fadeIn();

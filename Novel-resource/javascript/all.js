@@ -1,3 +1,4 @@
+var baseUrl = '/Novel/static/';
 $(function(){
 	// 主页
 	if(!$('body[data-page=main]').length) 
@@ -115,4 +116,101 @@ $(function(){
 	}
 
 	shouldShowToTop();
+
+	/* 搜索提示 */
+	var query = $('#query'),
+		autocom = $('#autocom'),
+		completeList = autocom.find('#completeList'),
+		searchForm = $('form[name=search]');
+
+	query.focus(function(){
+		if(!completeList.find('li').length) {
+			$.ajax({
+				url: baseUrl + 'hotKeywords',
+				type: 'get',
+				dataType: 'json',
+				success: function(data){
+					if(data.success) {
+						$.each(data.keywords, function(i, n){
+							completeList.append('<li>' + n.keyword + '</li>');
+						});
+
+						listHot();
+					}
+				}
+			});
+		} else {
+			listHot();
+		}
+	}).blur(function(){
+		setTimeout(function(){
+			completeList.find('li').removeClass('cur');
+			autocom.hide();
+		}, 150);
+	}).on('input', function(){
+		listHot();
+	}).on('keydown', function(e){
+		if(autocom.is(':hidden')){
+			return;
+		} else if(e.keyCode == 13){
+			e.preventDefault();
+
+			if(completeList.find('.cur').length){
+				query.val(completeList.find('.cur').html());
+			}
+			autocom.hide();
+			searchForm.submit();
+		}
+
+		var curLi = completeList.find('.cur');
+		var index = curLi.index();
+		if(e.keyCode == 40){
+			if(!curLi.length){
+				completeList.find('li').first().addClass('cur');
+				return;
+			}
+			// 向下
+			curLi.removeClass('cur');
+			if(index == completeList.find('li').length - 1){
+				completeList.find('li').first().addClass('cur');
+			} else {
+				curLi.next('li').addClass('cur');
+			}
+		} else if(e.keyCode == 38) {
+			if(!curLi.length){
+				completeList.find('li').last().addClass('cur');
+				return;
+			}
+			// 向上
+			curLi.removeClass('cur');
+			if(index == 0){
+				completeList.find('li').last().addClass('cur');
+			} else {
+				curLi.prev('li').addClass('cur');
+			}
+		}
+	});
+
+	query.on('propertychange', function(){
+		listHot();
+	});
+
+	completeList.on('click', 'li', function(){
+		var keyword = $(this).html();
+		query.val(keyword);
+	}).on('mouseover', 'li', function(){
+		if($(this).is('.cur')) {
+			return;
+		}
+		completeList.find('.cur').removeClass('cur');
+		$(this).addClass('cur');
+	});
+
+	function listHot() {
+		if(!query.val()){
+			autocom.show();
+		} else {
+			autocom.hide();
+		}
+	}
 });

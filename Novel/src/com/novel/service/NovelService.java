@@ -19,6 +19,7 @@ import com.novel.dao.lucene.LuceneSearch;
 import com.novel.model.Article;
 import com.novel.model.Novel;
 import com.novel.model.Paragraph;
+import com.novel.model.Search;
 import com.novel.model.Section;
 import com.novel.model.Type;
 import com.novel.util.PropertiesUtil;
@@ -250,5 +251,10 @@ public class NovelService {
 		} finally {
 			
 		}
+	}
+	
+	@Transactional(readOnly=true)
+	public List<Search> getHotestKeyWords(String key) throws Exception {
+		return noverMapper.selectKeyword(key);
 	}
 }

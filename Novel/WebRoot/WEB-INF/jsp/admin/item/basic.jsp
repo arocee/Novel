@@ -57,7 +57,7 @@
 		<div class='countDialog' id='countDialog'></div>
 	</div>
 	<div class='developInfo infoSection'>
-		<h1>更新日志</h1>
+		<h1>开发日志</h1>
 		<table>
 			<tr>
 				<th>编号</th>
@@ -118,6 +118,11 @@
 				<td>10</td>
 				<td>2015-09-1</td>
 				<td>数据统计后台彻底完成，即将把数据填充到前端</td>
+			</tr>
+			<tr>
+				<td>11</td>
+				<td>2015-09-7</td>
+				<td>数据统计前端完成。</td>
 			</tr>
 		</table>
 	</div>

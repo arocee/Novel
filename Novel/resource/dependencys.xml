@@ -175,12 +175,14 @@
    <statements>
    	<statement id="com.novel.dao.SearchMapper.batchInsert">
    		<observer id="com.novel.dao.NovelMapper.selectCount"></observer>
+   		<observer id="com.novel.dao.NovelMapper.selectKeyword"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectAllTimes"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectTimesByDay"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectTimesAll"></observer>
    	</statement>
    	<statement id="com.novel.dao.SearchMapper.batchUpdate">
    		<observer id="com.novel.dao.NovelMapper.selectCount"></observer>
+   		<observer id="com.novel.dao.NovelMapper.selectKeyword"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectAllTimes"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectTimesByDay"></observer>
    		<observer id="com.novel.dao.SearchMapper.selectTimesAll"></observer>

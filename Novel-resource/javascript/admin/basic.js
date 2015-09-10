@@ -1,6 +1,6 @@
 require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], function($, ec) {
 
-	var baseUrl = "/Novel/admin/data";
+	var baseUrl = "/Novel/admin";
 
 	$.ajaxSetup({
 		dataType: 'json',
@@ -23,7 +23,7 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 
 	/* 初始化 */
 	$.ajax({
-		url: baseUrl + '/diagram',
+		url: baseUrl + '/data/diagram',
 		type: 'get',
 		dataType: 'json',
 		data: {
@@ -89,7 +89,7 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 		}
 
 		$.ajax({
-			url: baseUrl + '/searchdiagram',
+			url: baseUrl + '/data/searchdiagram',
 			type: 'get',
 			dataType: 'json',
 			data: {

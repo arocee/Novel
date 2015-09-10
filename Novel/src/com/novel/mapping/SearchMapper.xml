@@ -12,12 +12,6 @@
     <result column="times" property="times" jdbcType="INTEGER" />
   </resultMap>
   
-  <!-- <resultMap type="SearchVo" id="SearchVoMap">
-  	<result column="keyword" property="keyword" />
-  	<result column="times" property="times" />
-  	<result column="resultcount" property="resultcount" />
-  </resultMap> -->
-  
   <select id="selectAllTimes" resultType="INTEGER" useCache="true" flushCache="false">
   	SELECT COUNT(*) FROM search
   </select>

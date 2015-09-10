@@ -24,8 +24,6 @@ public class PvConsumer implements Runnable {
 	
 	private long count = -1;
 	
-	private Integer sleepTime = 5;
-	
 	private DataService dataService = (DataService)SpringContextPathListener.getApplicationContext().getBean("dataService");
 	
 	@Override
@@ -54,43 +52,44 @@ public class PvConsumer implements Runnable {
 						
 						JedisCache.putMap(id, map);
 						count = JedisCache.putList("pv", id);
-					}
-					
-					if(count % Constants.MinDBTotal == 0 || maxWaitTime > Constants.maxWaitTime) {
-						maxWaitTime = 0;
-						count = -1;
 						
-						// 每100条便存一次
-						List<String> list = JedisCache.getList("pv");
-						JedisCache.del("pv");
-						
-						List<Pv> pvList = new ArrayList<>();
-						
-						for (String key : list) {
-							List<String> values = JedisCache.getList(key, "url", "type", "time", "ip");
-							JedisCache.del(key);
+						if(count % Constants.MinDBTotal == 0 || maxWaitTime > Constants.maxWaitTime) {
+							maxWaitTime = 0;
+							count = -1;
 							
-							Pv pv = new Pv();
-							pv.setUrl(values.get(0));
-							pv.setType(Integer.parseInt(values.get(1)));
-							pv.setTime(new Date(Long.parseLong(values.get(2))));
-							pv.setIp(values.get(3));
+							// 每100条便存一次
+							List<String> list = JedisCache.getList("pv");
+							JedisCache.del("pv");
 							
-							pvList.add(pv);
+							List<Pv> pvList = new ArrayList<>();
+							
+							for (String key : list) {
+								List<String> values = JedisCache.getList(key, "url", "type", "time", "ip");
+								JedisCache.del(key);
+								
+								pv = new Pv();
+								pv.setUrl(values.get(0));
+								pv.setType(Integer.parseInt(values.get(1)));
+								pv.setTime(new Date(Long.parseLong(values.get(2))));
+								pv.setIp(values.get(3));
+								
+								pvList.add(pv);
+							}
+							
+							if(pvList.size() > 0)
+								dataService.batchInsertPv(pvList);
 						}
-						
-						if(pvList.size() > 0)
-							dataService.batchInsertPv(pvList);
 					}
+					maxWaitTime = 0;
 				}
 				
-				Thread.sleep(sleepTime);
+				Thread.sleep(5);
 			} catch (Exception e) {
 				continue;
 			}
 			
 			maxWaitTimeCache ++;
-			if(maxWaitTimeCache > Constants.maxWaitTimeCache / (sleepTime * 90)) {
+			if(maxWaitTimeCache > Constants.maxWaitTimeCache) {
 				maxWaitTimeCache = 0;
 				maxWaitTime ++;
 			}

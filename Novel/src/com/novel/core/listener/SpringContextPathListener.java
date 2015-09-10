@@ -22,6 +22,9 @@ public class SpringContextPathListener implements ServletContextListener {
 	private static PvConsumer pvConsumer;
 	private static SearchConsumer searchConsumer;
 	
+	public static Thread pvThread;
+	public static Thread searchThread;
+	
 	public SpringContextPathListener() {
 		super();
 	}
@@ -45,7 +48,10 @@ public class SpringContextPathListener implements ServletContextListener {
 	private void init() {
 		pvConsumer = new PvConsumer();
 		searchConsumer = new SearchConsumer();
-		new Thread(pvConsumer).start();
-		new Thread(searchConsumer).start();
+		pvThread = new Thread(pvConsumer);
+		searchThread = new Thread(searchConsumer);
+		
+		pvThread.start();
+		searchThread.start();
 	}
 }

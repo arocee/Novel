@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.novel.controller.NovelController;
 import com.novel.dao.ArticleMapper;
+import com.novel.dao.NovelMapper;
 import com.novel.dao.PvMapper;
 import com.novel.dao.SearchMapper;
 import com.novel.model.Article;
@@ -52,6 +53,9 @@ public class NovelTests {
 	private SearchMapper searchMapper;
 	
 	@Resource
+	private NovelMapper novelMapper;
+	
+	@Resource
 	private PvMapper pvMapper;
 	
 	private final MockHttpServletRequest request = new MockHttpServletRequest();      
@@ -70,6 +74,15 @@ public class NovelTests {
 		for (Search searchVo : searches) {
 			System.out.println(searchVo.getKeyword());
 			System.out.println(searchVo.getResultcount());
+		}
+	}
+	
+	@Test
+	public void testNovelMapper() throws Exception {
+		List<Search> keywords = novelMapper.selectKeyword("我");
+		System.out.println(keywords.size());
+		for (Search search : keywords) {
+			System.out.println(search.getKeyword());
 		}
 	}
 	

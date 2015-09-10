@@ -291,21 +291,28 @@ html, body {
 	position: absolute;
 	left: 14px;
 	top: 34px;
-	box-shadow: 1px 1px 0px #dfdfdf;
 	background: #fff;
 	display: none;
+}
+.autocom h3 {
+	  margin: 0 5px;
+	  color: #ccc;
+	  border-bottom: 1px dashed #ccc;
+	  line-height: 20px;
+	  font-weight: normal;
+	  font-size: 12px;
 }
 .comInner li {
 	line-height: 30px;
 	font-size: 12px;
-	font-weight: bold;
 	padding: 0 4px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	cursor: pointer;
+	width: 100%;
 }
-.comInner li:hover {
+.comInner li.cur {
 	background: #2EA7E0;
 	color: #fff;
 }
