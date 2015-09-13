@@ -49,7 +49,7 @@
   	SELECT keyword, resultcount, COUNT(*) AS times FROM search 
 	GROUP BY keyword HAVING resultcount > 0  
 	<if test="key != null">
-		AND keyword LIKE #{key}"%" 
+		AND keyword LIKE #{key}"%" escape "/" 
 	</if>
 	ORDER BY times DESC LIMIT 5
   </select>

@@ -285,7 +285,6 @@ html, body {
 	background-position: right top;
 }
 .autocom {
-	width: 200px;
 	border: 1px solid #ccc;
 	border-top: none;
 	position: absolute;
@@ -310,7 +309,7 @@ html, body {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	cursor: pointer;
-	width: 100%;
+	width: 192px;
 }
 .comInner li.cur {
 	background: #2EA7E0;
@@ -342,6 +341,61 @@ html, body {
 /* ===首页=== */
 .banner img {
 	width: 100%;
+}
+.itemList {
+	width: 1000px;
+	margin: 10px auto;
+}
+.items {
+	border: 1px solid #2EA7E0;
+}
+.items h1 {
+	line-height: 30px;
+	color: #fff;
+	background: #2EA7E0;
+	padding: 0 15px;
+	font-weight: normal;
+	font-size: 16px;
+}
+.itemPart {
+	background: #F6F7FB;
+}
+.itemPart h2 {
+	line-height: 30px;
+	font-size: 14px;
+	padding: 0 15px;
+}
+.itemField {
+	border-bottom: 1px dashed #333;
+	position: relative;
+	line-height: 30px;
+	margin-left: 85px;
+	background: #fff;
+}
+.bottomField {
+	border: none;
+}
+.itemField h3 {
+	position: absolute;
+	width: 55px;
+	font-weight: normal;
+	font-size: 12px;
+	left: -85px;
+	line-height: 40px;
+	padding: 0 15px;
+	text-align: right;
+}
+.itemField a {
+	color: #2EA7E0;
+	display: inline-block;
+	padding: 5px 10px;
+	line-height: 20px;
+	border-radius: 2px;
+	margin: 5px;
+}
+.itemField a:hover {
+	color: #fff;
+	background: #2EA7E0;
 }
 .legalStatement {
 	width: 1000px;
@@ -379,6 +433,7 @@ html, body {
 	height: 220px;
 	padding: 10px 15px;
 	margin: 0 6.5px;
+	background: #F6F7FB;
 	_margin: 0 5.5px;
 }
 .intro li h3 {
@@ -595,6 +650,7 @@ html, body {
 	box-shadow: 1px 1px 0px #dfdfdf;
 }
 .completeInner li {
+	width: 510px;
 	line-height: 36px;
 	cursor: pointer;
 	font-weight: bold;
@@ -603,7 +659,7 @@ html, body {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.completeInner li:hover {
+.completeInner li.cur {
 	background: #2EA7E0;
 	color: #fff;
 }

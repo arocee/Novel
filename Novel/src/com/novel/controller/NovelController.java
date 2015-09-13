@@ -38,7 +38,7 @@ public class NovelController {
 	@RequestMapping("/index")
 	public ModelAndView index() throws Exception {
 		ModelAndView mav = new ModelAndView("index");
-		List<Type> nav = novelService.getTypes();
+		List<Type> nav = novelService.getTypes(1);
 		mav.addObject("nav", nav);
 		return mav;
 	}
@@ -47,7 +47,7 @@ public class NovelController {
 	@RequestMapping("/detail/{tid}/{aid}/{sid}")
 	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer tid, @PathVariable Integer aid, @PathVariable Integer sid) throws Exception {
 		ModelAndView mav = new ModelAndView("detail");
-		List<Type> nav = novelService.getTypes();
+		List<Type> nav = novelService.getTypes(0);
 		mav.addObject("nav", nav); // 一级菜单
 		
 		for (Type type : nav) {
@@ -74,7 +74,7 @@ public class NovelController {
 	@RequestMapping("/searchIndex")
 	public ModelAndView searchIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("searchIndex");
-		List<Type> nav = novelService.getTypes();
+		List<Type> nav = novelService.getTypes(0);
 		mav.addObject("nav", nav);
 		return mav;
 	}
@@ -83,6 +83,12 @@ public class NovelController {
 	@ResponseBody
 	public Map<String, Object> hotKeywords(String key, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
+		if(key != null){
+			if(key.length() > 15) {
+				key = key.substring(0, 15);
+			}
+			key = key.replaceAll("([%_])", "/$1");  // 转义
+		}
 		
 		List<Search> keywords = novelService.getHotestKeyWords(key);
 		modelMap.put("keywords", keywords);
@@ -156,7 +162,7 @@ public class NovelController {
 		
 		PagerVo pv = new PagerVo(pageCount, Integer.parseInt(pageNow), sb.toString());
 		
-		List<Type> nav = novelService.getTypes();
+		List<Type> nav = novelService.getTypes(0);
 		mav.addObject("nav", nav);
 		
 		mav.addObject("keyWords", keyWords);

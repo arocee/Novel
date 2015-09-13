@@ -33,7 +33,7 @@ public class NovelAdminController {
 	@RequestMapping(value="")
 	public ModelAndView editData(Integer page, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("admin/main");
-		List<Type> types = novelService.getTypes();
+		List<Type> types = novelService.getTypes(0);
 		
 		int tid = types.get(0).getId();
 		List<Article> articles = novelService.getArticlesByTid(tid);

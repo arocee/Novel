@@ -56,8 +56,8 @@ public class NovelService {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<Type> getTypes() throws Exception {
-		return typeMapper.selectList();
+	public List<Type> getTypes(int isAll) throws Exception {
+		return typeMapper.selectList(isAll);
 	}
 	
 	@Transactional(readOnly=true)

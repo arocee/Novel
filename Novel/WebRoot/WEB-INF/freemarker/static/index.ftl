@@ -3,6 +3,43 @@
 	<div class='banner'>
 		<img src='/image/banner.jpg' alt='banner' title='banner' />
 	</div>
+	<div class='itemList'>
+		<div class='items'>
+			<h1>全部类目</h1>
+			<div>
+				<ul>
+					<#list nav as type>
+						<li class='itemPart'>
+							<h2>${type.type}</h2>
+							<ol>
+								<#list type.articles as article>
+									<#if article_has_next>
+										<li>
+											<div class='itemField'>
+												<h3>${article.article}</h3>
+												<#list article.sections as section>
+													<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
+												</#list>
+											</div>
+										</li>
+									<#else>
+										<li>
+											<div class='itemField bottomField'>
+												<h3>${article.article}</h3>
+												<#list article.sections as section>
+													<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
+												</#list>
+											</div>
+										</li>
+									</#if>
+								</#list>
+							</ol>
+						</li>
+					</#list>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class='intro'>
 		<ul>
 			<li class='intro1'>

@@ -22,7 +22,13 @@
   
   <select id="selectList" resultMap="BaseResultMap" useCache="true">
     select t.id, t.type, a.id as art_id, a.article as art_article 
-    from type t inner join article a on t.id = a.tid
+    <if test="isAll == 1">
+    	,s.id as art_sec_id, s.section as art_sec_section 
+    </if>
+    from type t inner join article a on t.id = a.tid 
+    <if test="isAll == 1">
+    	inner join section s on s.aid = a.id
+    </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" flushCache="false">

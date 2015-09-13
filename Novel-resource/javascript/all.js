@@ -90,6 +90,151 @@ $(function(){
 });
 
 $(function(){
+	// 搜索入口页
+	if(!$('body[data-page=searchIndex]').length)
+		return;
+
+	var queryLong = $('#queryLong'),
+		autocomplete = $('#autocomplete'),
+		autocompleteList = autocomplete.find('#autocompleteList'),
+		searchIndexForm = $('form[name=searchIndexForm]');
+
+	var keys= [],
+		wordsList = {},
+		currentKey;
+
+	queryLong.focus(function(){
+		var key = $.trim($(this).val());
+		autoComplete(key);
+	}).blur(function(){
+		setTimeout(function(){
+			autocomplete.hide();
+		}, 150);
+	}).on('input', function(){
+		var key = $.trim($(this).val());
+		autoComplete(key);
+	}).on('keydown', function(e){
+		if(autocomplete.is(':hidden')){
+			return;
+		} else if(e.keyCode == 13){
+			e.preventDefault();
+
+			if(autocompleteList.find('.cur').length){
+				queryLong.val(autocompleteList.find('.cur').text());
+			}
+			autocomplete.hide();
+			searchIndexForm.submit();
+		}
+
+		var curLi = autocompleteList.find('.cur');
+		var index = curLi.index();
+		if(e.keyCode == 40){
+			if(!curLi.length){
+				autocompleteList.find('li').first().addClass('cur');
+				return;
+			}
+			// 向下
+			curLi.removeClass('cur');
+			if(index == autocompleteList.find('li').length - 1){
+				autocompleteList.find('li').first().addClass('cur');
+			} else {
+				curLi.next('li').addClass('cur');
+			}
+		} else if(e.keyCode == 38) {
+			if(!curLi.length){
+				autocompleteList.find('li').last().addClass('cur');
+				return;
+			}
+			// 向上
+			curLi.removeClass('cur');
+			if(index == 0){
+				autocompleteList.find('li').last().addClass('cur');
+			} else {
+				curLi.prev('li').addClass('cur');
+			}
+		}
+	});
+
+	queryLong.on('propertychange', function(){
+		var key = $.trim($(this).val());
+		autoComplete(key);
+	});
+
+	autocompleteList.on('click', 'li', function(){
+		var keyword = $(this).text();
+		queryLong.val(keyword);
+	}).on('mouseover', 'li', function(){
+		if($(this).is('.cur')) {
+			return;
+		}
+		autocompleteList.find('.cur').removeClass('cur');
+		$(this).addClass('cur');
+	});
+
+	function autoComplete(key){
+		if(!key) {
+			autocomplete.hide();
+			return;
+		}
+
+		autocompleteList.find('li').remove();
+
+		if($.inArray(key, keys) == -1){
+			keys.push(key);
+			currentKey = key; // 当前关键字标记
+
+			$.ajax({
+				url: baseUrl + 'hotKeywords',
+				type: 'get',
+				dataType: 'json',
+				data: {
+					key: key
+				},
+				success: function(data){
+					if(data.success) {
+						if(!data.keywords.length){
+							return;
+						}
+						var arr = [];
+						$.each(data.keywords, function(i, n){
+							arr.push(n.keyword);
+						});
+						wordsList[key] = arr;
+						
+						if(key == currentKey)
+							listHotByKey(wordsList[key]);
+					} else {
+						// 把数组中的相关数字移除
+						var index = $.inArray(key, keys);
+						if(index == -1) 
+							return;
+						keys.splice(index, 1);
+					}
+				},
+				error: function(){
+					// 把数组中的相关数字移除
+					var index = $.inArray(key, keys);
+					if(index == -1) 
+							return;
+					keys.splice(index, 1);
+				}
+			});
+		}
+		if(wordsList[key]) {
+			listHotByKey(wordsList[key]);
+		}
+	}
+
+	function listHotByKey(keywords){
+		$.each(keywords, function(i, n){
+			autocompleteList.append($('<li></li>').text(n));
+		});
+
+		autocomplete.show();
+	}
+});
+
+$(function(){
 	$(document).on('selectstart', function(){
 		return false;
 	}).on('dragstart', function(){
@@ -123,8 +268,12 @@ $(function(){
 		completeList = autocom.find('#completeList'),
 		searchForm = $('form[name=search]');
 
+	var isSending;
+
 	query.focus(function(){
-		if(!completeList.find('li').length) {
+		if(!isSending) {
+			isSending = true;
+
 			$.ajax({
 				url: baseUrl + 'hotKeywords',
 				type: 'get',
@@ -132,14 +281,20 @@ $(function(){
 				success: function(data){
 					if(data.success) {
 						$.each(data.keywords, function(i, n){
-							completeList.append('<li>' + n.keyword + '</li>');
+							completeList.append($('<li></li>').text(n.keyword));
 						});
 
 						listHot();
+					} else {
+						isSending = false;
 					}
+				},
+				error: function(){
+					isSending = false;
 				}
 			});
-		} else {
+		} 
+		if(completeList.find('li').length) {
 			listHot();
 		}
 	}).blur(function(){
@@ -156,7 +311,7 @@ $(function(){
 			e.preventDefault();
 
 			if(completeList.find('.cur').length){
-				query.val(completeList.find('.cur').html());
+				query.val(completeList.find('.cur').text());
 			}
 			autocom.hide();
 			searchForm.submit();
@@ -196,7 +351,7 @@ $(function(){
 	});
 
 	completeList.on('click', 'li', function(){
-		var keyword = $(this).html();
+		var keyword = $(this).text();
 		query.val(keyword);
 	}).on('mouseover', 'li', function(){
 		if($(this).is('.cur')) {
@@ -207,7 +362,7 @@ $(function(){
 	});
 
 	function listHot() {
-		if(!query.val()){
+		if(!$.trim(query.val())){
 			autocom.show();
 		} else {
 			autocom.hide();
