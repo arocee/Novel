@@ -3,7 +3,9 @@ require.config({
 	baseUrl: '/javascript',
     paths:{
 		"jquery": "jquery-1.11.1",
-		"echarts": "echarts/build/dist"
+		"echarts": "echarts/build/dist",
+		"ztree": "admin/jquery.ztree.core-3.5",
+		'migrate': 'admin/jquery-migrate-1.2.1'
     }
 });
 
@@ -23,6 +25,15 @@ require(['jquery'], function($) {
 	} else if(page == 4) {
 		$('#frameLeft').find('[data-menu=manage], [data-menu=member]').addClass('cur now');
 	}
+
+	/* ajax全局设置 */
+	$.ajaxSetup({
+		dataType: 'json',
+		timeout: 3000,
+		complete: function (xhr, status) {
+			logOut(xhr);
+		}
+	});
 
 	/* 回到顶部处理 */
 	var toTop = $('#toTop');
@@ -81,4 +92,12 @@ function getArgs(){
 		args[name] = value;
 	}
 	return args;
+}
+
+function logOut(xhr) {
+	var sessionstatus = xhr.getResponseHeader("sessionstatus");
+	if(sessionstatus && sessionstatus == 'timeout') {
+		window.location.replace('/Novel/admin/main'); // 登录超时
+		return;
+	}
 }

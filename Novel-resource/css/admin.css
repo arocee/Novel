@@ -481,7 +481,7 @@ input:-webkit-autofill {
 }
 .paragraphlist ul a i {
 	display: inline-block;
-	background-image: url(/image/admin/edit.png);
+	background-image: url(/image/admin/common.png);
 	background-repeat: no-repeat;
 	width: 11px;
 	height: 14px;
@@ -490,16 +490,22 @@ input:-webkit-autofill {
 	margin-top: -1px;
 }
 .paragraphlist .edit i {
-	background-position: right top;
+	background-position: -11.9px -518.2px;
 }
 .paragraphlist .edit:hover i {
-	background-position: right bottom;
+	background-position: -11.9px -534.2px;
 }
 .paragraphlist .delete i {
-	background-position: left top;
+	background-position: left -518.2px;
 }
 .paragraphlist .delete:hover i {
-	background-position: left bottom;
+	background-position: left -534.2px;
+}
+.paragraphlist .move i {
+	background-position: -23.1px -518.2px;
+}
+.paragraphlist .move:hover i {
+	background-position: -23.1px -534.2px;
 }
 .paragraphlist ul {
 	margin: 10px auto;
@@ -544,7 +550,7 @@ input:-webkit-autofill {
 	border-top: 1px dashed #3c3c3c;
 	padding: 0 10px;
 }
-.editfield, .addfield {
+.dialog {
 	position: fixed;
 	width: 250px;
 	left: 50%;
@@ -554,7 +560,7 @@ input:-webkit-autofill {
 	z-index: 100;
 	display: none;
 }
-.editfield h1, .addfield h1 {
+.dialog h1 {
 	background: #F39800;
 	color: #fff;
 	padding: 0 10px;
@@ -590,4 +596,16 @@ input:-webkit-autofill {
 }
 .fieldfoot a:hover {
 	background: #2EA7E0;
+}
+.dialog.movefield {
+	width: 300px;
+	margin-left: -150px;
+	margin-top: -176px;
+}
+#tree {
+	width: 96%;
+	border: 1px solid #666;
+	margin: 10px auto;
+	overflow: auto;
+	height: 200px;
 }

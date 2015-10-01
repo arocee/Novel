@@ -348,6 +348,7 @@ html, body {
 }
 .items {
 	border: 1px solid #2EA7E0;
+	border-radius: 6px 6px 0 0;
 }
 .items h1 {
 	line-height: 30px;
@@ -356,6 +357,7 @@ html, body {
 	padding: 0 15px;
 	font-weight: normal;
 	font-size: 16px;
+	border-radius: 5px 5px 0 0;
 }
 .itemPart {
 	background: #F6F7FB;
@@ -364,6 +366,7 @@ html, body {
 	line-height: 30px;
 	font-size: 14px;
 	padding: 0 15px;
+	color: #2EA7E0;
 }
 .itemField {
 	border-bottom: 1px dashed #333;
@@ -434,7 +437,12 @@ html, body {
 	padding: 10px 15px;
 	margin: 0 6.5px;
 	background: #F6F7FB;
+	transition: all 0.5s;
 	_margin: 0 5.5px;
+}
+.introTrans {
+	transform: rotateY(90deg);
+	opacity: 0;
 }
 .intro li h3 {
 	text-align: center;
@@ -472,6 +480,59 @@ html, body {
 	background-position: left -230px;
 }
 /* ===详情页=== */
+.path {
+	width: 1000px;
+	margin: 10px auto 0;
+	line-height: 30px;
+	position: relative;
+}
+.slideDown {
+	position: absolute;
+	background: #fff;
+	border: 1px solid #249BD8;
+	border-radius: 4px;
+	width: 80px;
+	padding: 10px;
+	top: 40px;
+	left: 100px;
+	box-shadow: 0 2px 4px #ccc;
+	z-index: 10;
+	display: none;
+}
+.slideDown a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: #249BD8;
+	text-align: center;
+}
+.slideDown a:hover {
+	background: #249BD8;
+	color: #fff;
+}
+.slideDown span.triangle {
+	border-left: 8px dashed transparent;
+    border-right: 8px dashed transparent;
+    border-bottom: 16px solid #249BD8;
+	position: absolute;
+	top: -15px;
+	left: 30px;
+}
+.slideDown i.triangle {
+	border-left: 8px dashed transparent;
+    border-right: 8px dashed transparent;
+    border-bottom: 16px solid #fff;
+	position: absolute;
+	top: -14px;
+	left: 30px;
+}
+.pathRoot {
+	display: inline-block;
+	margin: 0 2px;
+}
+.pathRoot a {
+	color: #249BD8;
+}
 .body {
 	width: 1000px;
 	margin: 10px auto;
@@ -547,6 +608,10 @@ html, body {
 	margin: 0 auto;
 	height: 40px;
 	line-height: 40px;
+}
+.searchInfo .back {
+	color: #249BD8;
+	float: right;
 }
 .searchInfo span {
 	display: inline-block;
@@ -662,6 +727,15 @@ html, body {
 .completeInner li.cur {
 	background: #2EA7E0;
 	color: #fff;
+}
+.backHome {
+	width: 645px;
+	margin: -45px auto 0;
+	text-align: center;
+	font-size: 18px;
+}
+.backHome a {
+	color: #2EA7E0;
 }
 /*===404和500页===*/
 .errorBody {

@@ -1,22 +1,12 @@
-require(['jquery'], function($) {
+require(['jquery', 'migrate', 'ztree'], function($) {
 
 	var baseUrl = "/Novel/admin";
-
-	$.ajaxSetup({
-		dataType: 'json',
-		timeout: 3000,
-		complete: function (xhr, status) {
-			var sessionstatus = xhr.getResponseHeader("sessionstatus");
-			if(sessionstatus && sessionstatus == 'timeout') {
-				window.location.replace(baseUrl + '/main'); // 登录超时
-				return;
-			}
-		}
-	});
 
 	/* 增 */
 	var addModel, editModel;
 	var tid, aid, sid, pid, type, article, section, paragraph;
+	var zTree;
+
 	$('.newAdd').click(function(){
 		var admin = $(this).parents('.admin');
 		var parent = admin.prev('.admin');
@@ -66,6 +56,10 @@ require(['jquery'], function($) {
 
 	/* 提交 */
 	$('.confirm').click(function(){
+		if($(this).parents('#movefield').length){
+			return false;
+		}
+
 		var dialog = $(this).parents('.dialog');
 		var name = dialog.find('input[name=name]').val();
 
@@ -126,7 +120,9 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeIn();
 					$('#loading').stop().show();
 				},
-				complete: function(){
+				complete: function(xhr, status){
+					logOut(xhr);
+
 					$('#loading').stop().hide();
 				},
 				error: function(){
@@ -139,14 +135,29 @@ require(['jquery'], function($) {
 						if(addModel == "addArticle") {
 							var dom = "<span data-id='" + data.id + "' data-tid='" + tid + "'><a href='javascript:void(0);'>" + name + "</a><i class='edit' title='编辑'></i><i class='delete' title='删除'></i></span>";
 							$('#articlelist').append(dom);
+
+							// 更新zTree
+							zNodes.push({
+								id: "a" + data.id, 
+								pId: "t" + tid, 
+								name: name
+							});
 						} else if(addModel == "addSection") {
 							var dom = "<span data-id='" + data.id + "' data-aid='" + aid + "'><a href='javascript:void(0);'>" + name + "</a><i class='edit' title='编辑'></i><i class='delete' title='删除'></i></span>";
 							$('#sectionlist').append(dom);
+
+							// 更新zTree
+							zNodes.push({
+								id: "s" + data.id, 
+								pId: "a" + aid, 
+								name: name,
+								sid: data.id
+							});
 						} else if(addModel == "addParagraph") {
 							var dom = "<li data-id='" + data.id + "' data-sid='" + sid + "'>" + 
 										"<p>" + name + "</p>" + 
 										"<div>" + 
-											"<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>" + 
+											"<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a><a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>" + 
 										"</div>" + 
 									"</li>"
 							$('#paragraphlist').append(dom);
@@ -229,7 +240,9 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeIn();
 					$('#loading').stop().show();
 				},
-				complete: function(){
+				complete: function(xhr, status){
+					logOut(xhr);
+
 					$('#loading').stop().hide();
 				},
 				error: function(){
@@ -257,6 +270,82 @@ require(['jquery'], function($) {
 					}
 				}
 			});
+		}
+	});
+
+	/* 对已有内容进行移动 */
+	/* zTree */
+	var setting = {
+		view: {
+			dblClickExpand: false,
+			showLine: true,
+			selectedMulti: false,
+			expandSpeed: ($.browser.msie && parseInt($.browser.version)<=6)?"":"fast"
+		},
+		data: {
+			simpleData: {
+				enable:true,
+				idKey: "id",
+				pIdKey: "pId",
+				rootPId: ""
+			}
+		},
+		callback: {
+			beforeClick: function(treeId, treeNode) {
+				var zTree = $.fn.zTree.getZTreeObj("tree");
+				if (treeNode.isParent) {
+					zTree.expandNode(treeNode);
+					return false;
+				} else {
+					sid = treeNode.sid;
+					return true;
+				}
+			}
+		}
+	};
+
+	$('#movefield').find('.confirm').click(function(){
+		if(sid && /^\d+$/.test(sid) && pid && /^\d+$/.test(pid) && sid != $('#sectionlist').find('.cur').get(0).dataset.id) {
+			$.ajax({
+				url: baseUrl + '/edit/moveParagraph/easy',
+				type: 'post',
+				data: {
+					pid: pid,
+					sid: sid
+				},
+				beforeSend: function(){
+					$('#movefield').stop().hide();
+					$('#cover').stop().fadeIn();
+					$('#loading').stop().show();
+				},
+				complete: function(xhr, status){
+					logOut(xhr);
+
+					$('#loading').stop().hide();
+				},
+				error: function(){
+					$('#movefield').stop().fadeIn(function(){
+						alert('请求不成功！');
+					});
+				},
+				success: function(data){
+					if(data.success) {
+						// 移动成功
+						$('#paragraphlist').find('li[data-id=' + pid + ']').remove();
+
+						dataInit(); // 复位数据
+
+						$('#cover').stop().fadeOut();
+					} else {
+						$('#movefield').stop().fadeIn(function(){
+							alert('请求不成功！');
+						});
+					}
+				}
+			});
+		} else {
+			$(this).next('.cancel').click();
+			return false;
 		}
 	});
 
@@ -290,7 +379,9 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeIn();
 					$('#loading').stop().show();
 				},
-				complete: function(){
+				complete: function(xhr, status){
+					logOut(xhr);
+
 					$('#loading').stop().hide();
 					$('#cover').stop().fadeOut();
 				},
@@ -310,6 +401,15 @@ require(['jquery'], function($) {
 							if(isCur && $('#articlelist').find('> span').length){
 								$('#articlelist').find('> span').eq(0).click();
 							}
+
+							// 删除zTree指定值
+							$.each(zNodes, function(i, n){
+								if(n.id == 'a' + id) {
+									zNodes.splice(i, 1);  // 移除
+								} else if(n.pId == 'a' + id){
+									zNodes.splice(i, 1);  // 移除
+								}
+							});
 						} else if(idd == 'sid') {
 							var $_this = $(_this).parent('span');
 							var isCur = false;
@@ -320,6 +420,14 @@ require(['jquery'], function($) {
 							if(isCur && $('#sectionlist').find('> span').length){
 								$('#sectionlist').find('> span').eq(0).click();
 							}
+
+							// 删除zTree指定值
+							$.each(zNodes, function(i, n){
+								if(n.id == 's' + id) {
+									zNodes.splice(i, 1);  // 移除
+									return false;
+								}
+							});
 						} else if(idd == 'pid') {
 							$(_this).parents('li').remove();
 						}
@@ -354,7 +462,7 @@ require(['jquery'], function($) {
 		var _this = this;
 
 		$('#cover').fadeIn();
-		$('#editfield').find('.clazz').html(clazz).end().find('.clazzName').html(clazzName).end().find('input[name=name]').val(val).end().fadeIn(function(){
+		$('#editfield').find('.clazz').html(clazz).end().find('.clazzName').html(clazzName).end().find('input[name=name]').val(val).select().end().fadeIn(function(){
 			if($(_this).parents('#articlelist').length) {
 				editModel = "editArticle";
 				$('#addfield').find('input[name=name]').attr('maxlength', 5);
@@ -368,6 +476,26 @@ require(['jquery'], function($) {
 
 			$(this).find('input[name=name]').focus();
 		});
+	}).on('click', '.move', function(e){
+		e.stopPropagation();
+
+		var	par = $(this).parents('li').find('p').html(),
+			parSec = $('#sectionlist').find('.cur').find('a').html(),
+			parArt = $('#articlelist').find('.cur').find('a').html(),
+			parTyp = $('#typelist').find('.cur').find('a').html();
+
+		pid = $(this).parents('li').get(0).dataset.id,
+		sid = $('#sectionlist').find('.cur').get(0).dataset.id;
+
+		var t = $("#tree");
+		t = $.fn.zTree.init(t, setting, zNodes);
+		zTree = $.fn.zTree.getZTreeObj("tree");
+		zTree.selectNode(zTree.getNodeByParam("id", 's' + sid));
+
+		$('#cover').fadeIn();
+		$('#movefield').fadeIn().find('.clazz').find('span:nth-of-type(1)').html(parTyp).end()
+			.find('span:nth-of-type(2)').html(parArt).end().find('span:nth-of-type(3)').html(parSec)
+			.end().next('.cont').find('span').html(par.length > 15 ? par.substring(0, 14) + '...' : par).attr('title', par);
 	});
 
 	/* 查 */
@@ -434,7 +562,7 @@ require(['jquery'], function($) {
 						$.each(data.paragraphes, function(i, p){
 							var dom = "<li data-id='" + p.id + "' data-sid='" + p.sid + "'>" + 
 										"<p>" + p.paragraph + "</p>" + 
-										"<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>" + 
+										"<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a><a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a></div>" + 
 									"</li>";
 							sb.append(dom);
 						});
@@ -473,7 +601,9 @@ require(['jquery'], function($) {
 					$('#cover').stop().fadeIn();
 					$('#loading').stop().show();
 				},
-				complete: function(){
+				complete: function(xhr, status){
+					logOut(xhr);
+
 					$('#loading').stop().hide();
 					$('#cover').stop().fadeOut();
 				},

@@ -77,6 +77,20 @@
 			<a href='javascript:void(0);' class='cancel'>取消</a>
 		</div>
 	</div>
+	<div class='movefield dialog' id='movefield'>
+		<h1>移动项目</h1>
+		<div class='fieldBody'>
+			<p class='clazz'>类目：<span></span> - <span></span> - <span></span></p>
+			<p class='cont'>内容：<span></span></p>
+			<div class='treeWrapper'>
+				<ul id="tree" class="ztree"></ul>
+			</div>
+		</div>
+		<div class='fieldfoot'>
+			<a href='javascript:void(0);' class='confirm'>确定</a>
+			<a href='javascript:void(0);' class='cancel'>取消</a>
+		</div>
+	</div>
 	<div class='loading' id='loading'></div>
 	<ul class="tbui_aside_float_bar">
 		<li class="tbui_aside_fbar_button tbui_fbar_top" id='toTop'>
@@ -93,6 +107,7 @@
 			<script src="/javascript/admin/log.js"></script>
 		</c:when>
 		<c:when test="${page == 2 }">
+			<link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css" />
 			<script src="/javascript/admin/edit.js"></script>
 		</c:when>
 		<c:when test="${page == 3 }">

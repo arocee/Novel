@@ -8,10 +8,10 @@
 			<div id='typelist'>
 				<c:forEach var='type' items="${types}">
 					<c:if test='${type.id == tid }'>
-						<span class='cur' data-id='${type.id }'><a href="javascript:void(0);">${type.type }</a><!-- <i class='edit' title='编辑'></i><i class='delete' title='删除'></i> --></span>	
+						<span class='cur' data-id='${type.id }'><a href="javascript:void(0);">${type.type }</a></span>	
 					</c:if>
 					<c:if test='${type.id != tid }'>
-						<span data-id='${type.id }'><a href="javascript:void(0);">${type.type }</a><!-- <i class='edit' title='编辑'></i><i class='delete' title='删除'></i> --></span>
+						<span data-id='${type.id }'><a href="javascript:void(0);">${type.type }</a></span>
 					</c:if>
 				</c:forEach>					
 			</div>
@@ -53,17 +53,47 @@
 		<h1>paragraph</h1>
 		<div class='paragraphlist list'>
 			<div>
-				<a id='addParagraph' class='newAdd' href='javascript:void(0);'>添加类目&nbsp;<i>+</i></a>
+				<a id='addParagraph' class='newAdd' href='javascript:void(0);'>添加条目&nbsp;<i>+</i></a>
 				<a href='javascript:void(0);' id='resetindex'>重置全文索引</a>
 			</div>
 			<ul id='paragraphlist'>
 				<c:forEach var='paragraph' items='${paragraphes }'>
 					<li data-id='${paragraph.id }' data-sid='${paragraph.sid }'>
 						<p>${paragraph.paragraph }</p>
-						<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+						<div>
+							<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+							<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+							<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+						</div>
 					</li>
 				</c:forEach>
 			</ul>
 		</div>
 	</div>
 </div>
+<script>
+	var zNodes = [];
+	
+	<c:forEach var="type" items="${types }">
+		zNodes.push({
+			id: "t${type.id}", 
+			pId: 0, 
+			name: "${type.type}"
+		});
+		<c:forEach var="article" items="${type.articles }">
+			zNodes.push({
+				id: "a${article.id}", 
+				pId: "t${type.id}", 
+				name: "${article.article}"
+			});
+			<c:forEach var="section" items="${article.sections }">
+				zNodes.push({
+					id: "s${section.id}", 
+					pId: "a${article.id}", 
+					name: "${section.section}", 
+					sid: ${section.id}
+				});
+			</c:forEach>
+		</c:forEach>
+	</c:forEach>
+</script>

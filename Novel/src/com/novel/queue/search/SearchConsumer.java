@@ -6,18 +6,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.novel.core.listener.SpringContextPathListener;
 import com.novel.model.Search;
 import com.novel.service.DataService;
+import com.novel.service.NovelService;
 import com.novel.util.Constants;
 import com.novel.util.JedisCache;
 
 public class SearchConsumer implements Runnable {
 	
+	private static Log log = LogFactory.getLog(NovelService.class);
+	
 	/**
 	 * 数据最长缓存时间，当线程运行一定时间以后，强制写入一次
 	 */
-	private Integer maxWaitTime = 0;
+	private Integer maxWaitTime = 50;  // 与PV错开
 	private Integer maxWaitTimeCache = 0;
 	
 	private long count = -1;
@@ -75,6 +81,7 @@ public class SearchConsumer implements Runnable {
 				
 				Thread.sleep(5);
 			} catch (Exception e) {
+				log.error("Search线程出错：<br/>" + e);
 				continue;
 			}
 			

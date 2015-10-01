@@ -25,8 +25,9 @@ public class DataInterceptor extends HandlerInterceptorAdapter  {
 			HttpServletResponse response, Object handler) throws Exception {
 		
 		if(!SpringContextPathListener.pvThread.isAlive()){
-			Constants.pvQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
-			return true;
+			//Constants.pvQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
+			System.err.println("pv线程意外停止");
+			SpringContextPathListener.pvThread.start(); // 重新启动
 		}
 		
 		String url = request.getRequestURL().toString();
@@ -52,8 +53,9 @@ public class DataInterceptor extends HandlerInterceptorAdapter  {
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if(!SpringContextPathListener.searchThread.isAlive()){
-			Constants.searchQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
-			return;
+			//Constants.searchQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
+			System.err.println("search线程意外停止");
+			SpringContextPathListener.searchThread.start();
 		}
 		
 		String url = request.getRequestURL().toString();

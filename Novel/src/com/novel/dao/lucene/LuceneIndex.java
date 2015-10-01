@@ -13,7 +13,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.stereotype.Component;
@@ -36,27 +36,29 @@ public class LuceneIndex {
 	
 	/**
 	 * 创建索引
-	 * @param novel
+	 * @param novels
 	 * @throws Exception
 	 */
-	public void createIndex(List<Novel> novel) throws Exception {
+	public void createIndex(List<Novel> novels) throws Exception {
 		if(indexWriter == null)
 			initIndexWriter(true);
 		
 		indexWriter.deleteAll();
 		
-		for (Novel article: novel) {
+		for (Novel novel: novels) {
 			Document doc = new Document();
-			doc.add(new IntField("pid", article.getPid(), Store.YES));
-			doc.add(new IntField("tid", article.getTid(), Store.YES));
-			doc.add(new IntField("aid", article.getAid(), Store.YES));
-			doc.add(new IntField("sid", article.getSid(), Store.YES));
-			doc.add(new TextField("p", article.getParagraph(), Store.YES));
-			doc.add(new TextField("s", article.getSection(), Store.YES));
-			doc.add(new TextField("a", article.getArticle(), Store.YES));
-			doc.add(new TextField("t", article.getType(), Store.YES));
+			doc.add(new IntField("pid", novel.getPid(), Store.YES));
+			doc.add(new IntField("tid", novel.getTid(), Store.YES));
+			doc.add(new IntField("aid", novel.getAid(), Store.YES));
+			doc.add(new IntField("sid", novel.getSid(), Store.YES));
+			doc.add(new TextField("p", novel.getParagraph(), Store.YES));
+			doc.add(new TextField("s", novel.getSection(), Store.YES));
+			doc.add(new TextField("a", novel.getArticle(), Store.YES));
+			doc.add(new TextField("t", novel.getType(), Store.YES));
 			
-			doc.add(new NumericDocValuesField("sortId", article.getPid()));
+			doc.add(new TextField("ppid", novel.getPid() + "", Store.YES));  // 更新索引用
+			
+			doc.add(new NumericDocValuesField("sortId", novel.getPid()));
 
 			indexWriter.addDocument(doc);				
 		}
@@ -67,24 +69,26 @@ public class LuceneIndex {
 	
 	/**
 	 * 添加索引
-	 * @param article
+	 * @param novel
 	 * @throws Exception
 	 */
-	public void addIndex(Novel article) throws Exception {
+	public void addIndex(Novel novel) throws Exception {
 		if(indexWriter == null)
 			initIndexWriter(false);
 		
 		Document doc = new Document();
-		doc.add(new IntField("pid", article.getPid(), Store.YES));
-		doc.add(new IntField("tid", article.getTid(), Store.YES));
-		doc.add(new IntField("aid", article.getAid(), Store.YES));
-		doc.add(new IntField("sid", article.getSid(), Store.YES));
-		doc.add(new TextField("p", article.getParagraph(), Store.YES));
-		doc.add(new TextField("s", article.getSection(), Store.YES));
-		doc.add(new TextField("a", article.getArticle(), Store.YES));
-		doc.add(new TextField("t", article.getType(), Store.YES));
+		doc.add(new IntField("pid", novel.getPid(), Store.YES));
+		doc.add(new IntField("tid", novel.getTid(), Store.YES));
+		doc.add(new IntField("aid", novel.getAid(), Store.YES));
+		doc.add(new IntField("sid", novel.getSid(), Store.YES));
+		doc.add(new TextField("p", novel.getParagraph(), Store.YES));
+		doc.add(new TextField("s", novel.getSection(), Store.YES));
+		doc.add(new TextField("a", novel.getArticle(), Store.YES));
+		doc.add(new TextField("t", novel.getType(), Store.YES));
 		
-		doc.add(new NumericDocValuesField("sortId", article.getPid()));
+		doc.add(new TextField("ppid", novel.getPid() + "", Store.YES));  // 更新索引用
+		
+		doc.add(new NumericDocValuesField("sortId", novel.getPid()));
 		
 		indexWriter.addDocument(doc);
 		indexWriter.forceMerge(1);
@@ -95,11 +99,11 @@ public class LuceneIndex {
 	 * 删除索引
 	 * @param words
 	 */
-	public void deleteIndex(String words) throws Exception {
+	public void deleteIndex(int pid) throws Exception {
 		if(indexWriter == null)
 			initIndexWriter(false);
 		
-		indexWriter.deleteDocuments((new QueryParser("p", analyzer)).parse(words));
+		indexWriter.deleteDocuments(NumericRangeQuery.newIntRange("pid", pid, pid + 1, true, false));
 		indexWriter.forceMerge(1);
 		indexWriter.commit();
 	}
@@ -110,21 +114,25 @@ public class LuceneIndex {
 	 * @param newSection
 	 * @throws Exception
 	 */
-	public void updateIndex(Novel article) throws Exception {
+	public void updateIndex(Novel novel) throws Exception {
 		if(indexWriter == null)
 			initIndexWriter(false);
 		
 		Document doc = new Document();
-		doc.add(new IntField("pid", article.getPid(), Store.YES));
-		doc.add(new IntField("tid", article.getTid(), Store.YES));
-		doc.add(new IntField("aid", article.getAid(), Store.YES));
-		doc.add(new IntField("sid", article.getSid(), Store.YES));
-		doc.add(new TextField("p", article.getParagraph(), Store.YES));
-		doc.add(new TextField("s", article.getSection(), Store.YES));
-		doc.add(new TextField("a", article.getArticle(), Store.YES));
-		doc.add(new TextField("t", article.getType(), Store.YES));
+		doc.add(new IntField("pid", novel.getPid(), Store.YES));
+		doc.add(new IntField("tid", novel.getTid(), Store.YES));
+		doc.add(new IntField("aid", novel.getAid(), Store.YES));
+		doc.add(new IntField("sid", novel.getSid(), Store.YES));
+		doc.add(new TextField("p", novel.getParagraph(), Store.YES));
+		doc.add(new TextField("s", novel.getSection(), Store.YES));
+		doc.add(new TextField("a", novel.getArticle(), Store.YES));
+		doc.add(new TextField("t", novel.getType(), Store.YES));
 		
-		indexWriter.updateDocument(new Term("pid", article.getPid() + ""), doc);
+		doc.add(new TextField("ppid", novel.getPid() + "", Store.YES));  // 更新索引用
+		
+		doc.add(new NumericDocValuesField("sortId", novel.getPid()));
+		
+		indexWriter.updateDocument(new Term("ppid", novel.getPid() + ""), doc);
 		indexWriter.commit();
 	}
 	
@@ -151,6 +159,7 @@ public class LuceneIndex {
 	}
 	
 	public void close() throws Exception {
-		indexWriter.close();
+		if(indexWriter != null)
+			indexWriter.close();
 	}
 }

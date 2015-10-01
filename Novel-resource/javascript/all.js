@@ -4,6 +4,41 @@ $(function(){
 	if(!$('body[data-page=main]').length) 
 		return;
 
+	/* ‘说明’淡入 */
+	var introLi = $('.intro').find('li'),
+		ilw = introLi.outerWidth(),
+		ilh = introLi.outerHeight(),
+		$window = $(window);
+
+	introLi.addClass('introTrans');
+
+	$window.on('scroll.fadeIn, resize.fadeIn', function(){
+		fadeIn();
+	});
+
+
+	function fadeIn(){
+		var sl = $window.scrollLeft(),
+			st = $window.scrollTop(),
+			wh = $window.height(),
+			ww = $window.width();
+
+		introLi.each(function(i, n){
+			var io = $(n).offset();
+			if(io.top >= st && io.top <= st + wh && io.left >= sl && io.left <= sl + ww) {
+				$(this).removeClass('introTrans');
+			} else if(ww <= ilw || wh <= ilh){
+				introLi.removeClass('introTrans');
+			}
+
+			if(!introLi.filter('.introTrans').length){
+				$window.off('.fadeIn');
+			}
+		});
+	}
+
+	fadeIn();
+
 	/* 滚动播放声明 */
 	var legalDetail = $('#legalDetail');
 	
@@ -18,7 +53,7 @@ $(function(){
 		}, 35000, 'linear', function(){
 			$(this).css('left', ld_left);
 			arg.callee();
-		})
+		});
 	})();
 
 	legalDetail.on('selectstart', function(){
@@ -87,6 +122,30 @@ $(function(){
 			return 'auto';
 		}
 	});
+
+	/* 下拉菜单 */
+	var openSlide = $('#openSlide'),
+		slideDon = $('#slideDown');
+
+	var slideShow = false;
+
+	openSlide.hover(function(){
+		slideShow = true;
+		slideDon.stop().slideDown();
+	}, function(){
+		slideShow = false;
+		setTimeout(function(){
+			if(!slideShow){
+				slideDon.stop().slideUp();
+			}
+		}, 100);
+	});
+
+	slideDon.hover(function(){
+		openSlide.mouseenter();
+	}, function(){
+		openSlide.mouseleave();
+	});
 });
 
 $(function(){
@@ -124,6 +183,8 @@ $(function(){
 			}
 			autocomplete.hide();
 			searchIndexForm.submit();
+		} else if(e.keyCode == 27) {
+			autocomplete.hide();
 		}
 
 		var curLi = autocompleteList.find('.cur');
@@ -179,49 +240,57 @@ $(function(){
 
 		autocompleteList.find('li').remove();
 
-		if($.inArray(key, keys) == -1){
-			keys.push(key);
-			currentKey = key; // 当前关键字标记
+		setTimeout(function(){
+			if(key == $.trim($(queryLong).val())){
+				toDo(); // 增加延迟
+			}
+		}, 500);
 
-			$.ajax({
-				url: baseUrl + 'hotKeywords',
-				type: 'get',
-				dataType: 'json',
-				data: {
-					key: key
-				},
-				success: function(data){
-					if(data.success) {
-						if(!data.keywords.length){
-							return;
+		// 进行自动补全之前的准备工作
+		function toDo() {
+			if($.inArray(key, keys) == -1){
+				keys.push(key);
+				currentKey = key; // 当前关键字标记
+
+				$.ajax({
+					url: baseUrl + 'hotKeywords',
+					type: 'get',
+					dataType: 'json',
+					data: {
+						key: key
+					},
+					success: function(data){
+						if(data.success) {
+							if(!data.keywords.length){
+								return;
+							}
+							var arr = [];
+							$.each(data.keywords, function(i, n){
+								arr.push(n.keyword);
+							});
+							wordsList[key] = arr;
+							
+							if(key == currentKey)
+								listHotByKey(wordsList[key]);
+						} else {
+							// 把数组中的相关数字移除
+							var index = $.inArray(key, keys);
+							if(index == -1) 
+								return;
+							keys.splice(index, 1);
 						}
-						var arr = [];
-						$.each(data.keywords, function(i, n){
-							arr.push(n.keyword);
-						});
-						wordsList[key] = arr;
-						
-						if(key == currentKey)
-							listHotByKey(wordsList[key]);
-					} else {
+					},
+					error: function(){
 						// 把数组中的相关数字移除
 						var index = $.inArray(key, keys);
 						if(index == -1) 
-							return;
+								return;
 						keys.splice(index, 1);
 					}
-				},
-				error: function(){
-					// 把数组中的相关数字移除
-					var index = $.inArray(key, keys);
-					if(index == -1) 
-							return;
-					keys.splice(index, 1);
-				}
-			});
-		}
-		if(wordsList[key]) {
-			listHotByKey(wordsList[key]);
+				});
+			} else if(wordsList[key]) {
+				listHotByKey(wordsList[key]);
+			}
 		}
 	}
 
@@ -315,6 +384,8 @@ $(function(){
 			}
 			autocom.hide();
 			searchForm.submit();
+		} else if(e.keyCode == 27) {
+			autocom.hide();
 		}
 
 		var curLi = completeList.find('.cur');
@@ -362,7 +433,7 @@ $(function(){
 	});
 
 	function listHot() {
-		if(!$.trim(query.val())){
+		if(!$.trim(query.val()) && query.is(':focus')){
 			autocom.show();
 		} else {
 			autocom.hide();

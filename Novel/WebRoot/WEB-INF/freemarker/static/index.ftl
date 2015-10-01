@@ -12,27 +12,33 @@
 						<li class='itemPart'>
 							<h2>${type.type}</h2>
 							<ol>
-								<#list type.articles as article>
-									<#if article_has_next>
-										<li>
-											<div class='itemField'>
-												<h3>${article.article}</h3>
-												<#list article.sections as section>
-													<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
-												</#list>
-											</div>
-										</li>
-									<#else>
-										<li>
-											<div class='itemField bottomField'>
-												<h3>${article.article}</h3>
-												<#list article.sections as section>
-													<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
-												</#list>
-											</div>
-										</li>
-									</#if>
-								</#list>
+								<#if type.articles??>
+									<#list type.articles as article>
+										<#if article_has_next>
+											<li>
+												<div class='itemField'>
+													<h3>${article.article}</h3>
+													<#if article.sections??>
+														<#list article.sections as section>
+															<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
+														</#list>
+													</#if>
+												</div>
+											</li>
+										<#else>
+											<li>
+												<div class='itemField bottomField'>
+													<h3>${article.article}</h3>
+													<#if article.sections??>
+														<#list article.sections as section>
+															<a href='/Novel/static/detail-${type.id}-${article.id}-${section.id}.html'>${section.section}</a>
+														</#list>
+													</#if>
+												</div>
+											</li>
+										</#if>
+									</#list>
+								</#if>
 							</ol>
 						</li>
 					</#list>
@@ -50,7 +56,7 @@
 			<li class='intro2'>
 				<span></span>
 				<h3>Helpful</h3>
-				<p>您是否有写小说绞尽脑汁却写不出来的时候，您是否有没有创作源泉而抓耳挠腮的时候，如今，有了小说灵感网，专为您的小说提供无限创意，从此，妈妈再也不用担心我的小说了。</p>
+				<p>您是否有写小说搜肠刮肚也写不出来的时候，您是否有为了一个情节的描写而绞尽脑汁的时候，您是否有没有创作源泉而抓耳挠腮的时候，如今，有了小说灵感网，专为您的小说提供无限创意，从此，妈妈再也不用担心我的小说了。</p>
 			</li>
 			<li class='intro3'>
 				<span></span>

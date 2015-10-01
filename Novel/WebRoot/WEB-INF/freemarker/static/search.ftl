@@ -3,6 +3,7 @@
 	<div class='body' id='body'>
 		<div class='mainContent searchContent'>
 			<div class='searchInfo'>
+				<a href='/Novel/static/index.html' class='back'>&lt;&lt; 返回首页</a>
 				<p><span></span>搜索“${keyWords?html}”的结果，共${count}条</p>
 			</div>
 			<div class='paragraphList'>

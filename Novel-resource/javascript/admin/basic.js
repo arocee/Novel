@@ -2,18 +2,6 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 
 	var baseUrl = "/Novel/admin";
 
-	$.ajaxSetup({
-		dataType: 'json',
-		timeout: 3000,
-		complete: function (xhr, status) {
-			var sessionstatus = xhr.getResponseHeader("sessionstatus");
-			if(sessionstatus && sessionstatus == 'timeout') {
-				window.location.replace(baseUrl + '/main'); // 登录超时
-				return;
-			}
-		}
-	});
-
 	// 搜索饼状图
 	var pieChart = ec.init(document.getElementById('countDialog'));
 	// 访问折线图
@@ -22,13 +10,12 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 	var pieOptions = [], lineOption, days = [];
 
 	/* 初始化 */
+	$('#countType').find('option').last().prop('selected', 'selected');
+
 	$.ajax({
 		url: baseUrl + '/data/diagram',
 		type: 'get',
 		dataType: 'json',
-		data: {
-			date: $('#countType option:selected').text()
-		},
 		beforeSend: function(){
 			$('#countType').attr('disabled', 'disabled');
 			pieChart.showLoading({  
@@ -89,7 +76,7 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 		}
 
 		$.ajax({
-			url: baseUrl + '/data/searchdiagram',
+			url: baseUrl + '/data/searchdiagram/easy',
 			type: 'get',
 			dataType: 'json',
 			data: {
@@ -101,7 +88,9 @@ require(['jquery', 'echarts', 'echarts/chart/pie', 'echarts/chart/line'], functi
 					text : "图表数据正在努力加载..."  
 				});
 			},
-			complete: function() {
+			complete: function(xhr, status) {
+				logOut(xhr);
+
 				$('#countType').removeAttr('disabled');
 				pieChart.hideLoading(); 
 			},

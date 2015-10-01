@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import com.novel.dao.SearchMapper;
 import com.novel.model.Article;
 import com.novel.model.Search;
 import com.novel.util.DateHandle;
+import com.novel.util.JedisCache;
 import com.novel.util.MD5;
 import com.novel.vo.PvDataVo;
 import com.novel.vo.PvVo;
@@ -78,8 +80,23 @@ public class NovelTests {
 	}
 	
 	@Test
+	public void testSearchMapper2() throws Exception {      
+		int count = searchMapper.selectAllTimes();
+		System.out.println(count);
+	}
+	
+	@Test
+	public void testSearchMapper3() throws Exception {      
+		List<Search> searches = searchMapper.selectTimesByDay(DateHandle.getTheDate(1), DateHandle.getTheDate(-1));
+		for (Search searchVo : searches) {
+			System.out.println(searchVo.getKeyword());
+			System.out.println(searchVo.getResultcount());
+		}
+	}
+	
+	@Test
 	public void testNovelMapper() throws Exception {
-		List<Search> keywords = novelMapper.selectKeyword("我");
+		List<Search> keywords = novelMapper.selectKeyword(null);
 		System.out.println(keywords.size());
 		for (Search search : keywords) {
 			System.out.println(search.getKeyword());
@@ -89,7 +106,7 @@ public class NovelTests {
 	@Test
 	public void testPvMapper() throws Exception {   
 		//List<Date> list = DateHandle.getBetweenDay(DateHandle.getTheDate(7), DateHandle.getTodayZoreTime());
-		List<PvDataVo> pvDataVoes = pvMapper.selectTimesByDay(DateHandle.getTheDate(7), DateHandle.getTodayZoreTime());
+		List<PvDataVo> pvDataVoes = pvMapper.selectTimesByDay(DateHandle.getTheDate(7), DateHandle.getTheDate(-1));
 		for (PvDataVo pvDataVo : pvDataVoes) {
 			System.out.println(pvDataVo.getDate());
 			for (PvVo pvVo : pvDataVo.getPvVo()) {
@@ -101,11 +118,17 @@ public class NovelTests {
 	}
 	
 	@Test
+	public void testPvMapper2() throws Exception {   
+		int count1 = pvMapper.selectAllTimes(0);
+		int count2 = pvMapper.selectAllTimes(1);
+		System.out.println(count1 + "==" + count2);
+	}
+	
+	@Test
 	public void testMain4User() throws Exception {
 		request.setRequestURI("/index");          
 		request.setMethod(HttpMethod.POST.name());          
 		//HttpSession session = request.getSession();          
-		//璁剧疆 璁よ瘉淇℃伅         
 		//session.setAttribute(CommonConstants.SESSION_USER_TYPE, 1);          
 		//session.setAttribute(CommonConstants.SESSION_USER_ID, 0);          
 		//session.setAttribute(CommonConstants.SESSION_USER_ACC, "aa1");            
@@ -123,5 +146,34 @@ public class NovelTests {
 		Date date = new Date(1441436858837l);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(df.format(date));
+	}
+	
+	@Test
+	public void saveSearch() throws Exception {
+		// 每100条便存一次
+		List<String> list = JedisCache.getList("sc");
+		JedisCache.del("sc");
+		
+		List<Search> searchList = new ArrayList<>();
+		
+		for (String key : list) {
+			List<String> values = JedisCache.getList(key, "keyword", "count", "time");
+			JedisCache.del(key);
+			
+			if(values.get(0) == null || values.get(1) == null || 
+					values.get(2) == null) {
+				continue;
+			}
+			
+			Search search = new Search();
+			search.setKeyword(values.get(0));
+			search.setResultcount(Integer.parseInt(values.get(1)));
+			search.setTime(new Date(Long.parseLong(values.get(2))));
+			
+			searchList.add(search);
+		}
+		
+		if(searchList.size() > 0)
+			searchMapper.batchInsert(searchList);
 	}
 }

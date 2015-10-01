@@ -23,7 +23,7 @@
 					<h2></h2>
 					<form name='loginForm' action='/Novel/admin/member/login' method="post">
 						<div class='controls'>
-							<label for='username'>用户名：</label><input type='text' name='username' id='username' placeholder='请输入用户名' maxlength='10' />
+							<label for='username'>用户名：</label><input type='text' name='username' id='username' placeholder='请输入用户名' maxlength='10' autofocus='autofocus' />
 							<p class='errorTip' id='userTip'>&nbsp;</p>
 						</div>
 						<div class='controls'>

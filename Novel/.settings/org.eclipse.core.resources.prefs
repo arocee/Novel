@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
-encoding//src/com/novel/controller/InfoAdminController.java=UTF-8
+encoding//resource/customValidationMessages.properties=UTF-8
+encoding//src/com/novel/controller/DataAdminController.java=UTF-8
 encoding//src/com/novel/util/DateHandle.java=UTF-8
 encoding//test/com/test/NovelTests.java=UTF-8
 encoding/<project>=UTF-8

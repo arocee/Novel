@@ -137,6 +137,9 @@ public class LuceneSearch {
 	 * @throws Exception
 	 */
 	private List<Novel> resultHandle(Query query, int pageNow, int pageSize) throws Exception {
+		if(isearcher == null)
+			initIndexSearcher();
+		
 		Sort sort = new Sort(new SortField[]{SortField.FIELD_SCORE ,new SortField("sortId", SortField.Type.INT)});
 		
 		ScoreDoc[] hits = isearcher.search(query, pageSize * (pageNow + 1), sort).scoreDocs;
@@ -291,8 +294,10 @@ public class LuceneSearch {
 	 * @throws Exception
 	 */
 	public void close() throws Exception {
-		ireader.close();
-		directory.close();
+		if(ireader != null)
+			ireader.close();
+		if(directory != null)
+			directory.close();
 	}
 	
 }

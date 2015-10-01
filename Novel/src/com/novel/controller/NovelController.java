@@ -134,8 +134,8 @@ public class NovelController {
 			list = new ArrayList<>();
 		} else {
 			String fixedKeyWords = keyWords.replaceAll("\\p{Punct}|\\p{Blank}|\\p{Space}|\\\\|\\/", "");
-			count = novelService.getNoverCount(fixedKeyWords, id, Integer.parseInt(searchType));
-			list = novelService.getNover(fixedKeyWords, id, Integer.parseInt(searchType), Integer.parseInt(pageNow));
+			count = novelService.getNovelCount(fixedKeyWords, id, Integer.parseInt(searchType));
+			list = novelService.getNovel(fixedKeyWords, id, Integer.parseInt(searchType), Integer.parseInt(pageNow));
 		}
 		
 		// 获取分页数

@@ -63,23 +63,43 @@
 					<ul>
 						<li>
 							<p>一个男的经常去缠一个女生 女生很烦他 拜托一个好朋友去引开他 那人偏说她回家了 于是果真把男的引开了 女的哭笑不得 你把它引我家 我怎么回家</p>
-							<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+							<div>
+								<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+								<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+								<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+							</div>
 						</li>
 						<li>
 							<p>一个男的经常去缠一个女生 女生很烦他 拜托一个好朋友去引开他 那人偏说她回家了 于是果真把男的引开了 女的哭笑不得 你把它引我家 我怎么回家</p>
-							<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+							<div>
+								<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+								<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+								<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+							</div>
 						</li>
 						<li>
 							<p>一个男的经常去缠一个女生 女生很烦他 拜托一个好朋友去引开他 那人偏说她回家了 于是果真把男的引开了 女的哭笑不得 你把它引我家 我怎么回家</p>
-							<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+							<div>
+								<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+								<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+								<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+							</div>
 						</li>
 						<li>
 							<p>一个男的经常去缠一个女生 女生很烦他 拜托一个好朋友去引开他 那人偏说她回家了 于是果真把男的引开了 女的哭笑不得 你把它引我家 我怎么回家</p>
-							<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+							<div>
+								<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+								<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+								<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+							</div>
 						</li>
 						<li>
 							<p>一个男的经常去缠一个女生 女生很烦他 拜托一个好朋友去引开他 那人偏说她回家了 于是果真把男的引开了 女的哭笑不得 你把它引我家 我怎么回家</p>
-							<div><a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a><a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a></div>
+							<div>
+								<a class='edit' href='javascript:void(0);' title='编辑'>编辑<i></i></a>
+								<a class='delete' href='javascript:void(0);' title='删除'>删除<i></i></a>
+								<a class='move' href='javascript:void(0);' title='移动'>移动<i></i></a>
+							</div>
 						</li>
 					</ul>
 					<div><a id='addParagraph' href='javascript:void(0);'>添加类目&nbsp;<i>+</i></a></div>
@@ -94,7 +114,7 @@
 		<p>novel-inspiration&copy; 2015</p>
 	</div>
 	<div class='cover'></div>
-	<div class='editfield'>
+	<div class='editfield dialog'>
 		<h1>修改名字</h1>
 		<div class='fieldBody'>
 			<p><span>type</span>：<span>伤感</span></p>
@@ -105,11 +125,25 @@
 			<a href='javascript:void(0);' class='cancel'>取消</a>
 		</div>
 	</div>
-	<div class='addfield'>
+	<div class='addfield dialog'>
 		<h1>添加子项目</h1>
 		<div class='fieldBody'>
 			<p>所属类目：<span>type</span></p>
 			<input type='text' placeholder='请输入名字' />
+		</div>
+		<div class='fieldfoot'>
+			<a href='javascript:void(0);' class='confirm'>确定</a>
+			<a href='javascript:void(0);' class='cancel'>取消</a>
+		</div>
+	</div>
+	<div class='movefield dialog' style='display:block'>
+		<h1>移动项目</h1>
+		<div class='fieldBody'>
+			<p>类目：<span>爱情部分</span> - <span>伤感</span> - <span>感动</span> - </p>
+			<p>一个男的经常去缠一个女生...</p>
+			<div class='tree'>
+				<ul id="tree" class="ztree" style="width:80%; overflow:auto;"></ul>
+			</div>
 		</div>
 		<div class='fieldfoot'>
 			<a href='javascript:void(0);' class='confirm'>确定</a>

@@ -7,12 +7,14 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import com.novel.model.Search;
+import com.novel.vo.NovelCountVo;
 
 @Component("searchMapper")
 public interface SearchMapper {
 	Integer selectAllTimes() throws Exception;
 	List<Search> selectTimesAll() throws Exception;
 	List<Search> selectTimesByDay(@Param("starttime")Date startTime, @Param("endtime")Date endTime) throws Exception;
+	NovelCountVo selectCount() throws Exception;
 	Integer batchInsert(@Param("list")List<Search> search) throws Exception;
 	Integer batchUpdate(List<Search> search) throws Exception;
 }

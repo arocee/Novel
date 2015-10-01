@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.novel.dao.NovelMapper;
 import com.novel.dao.PvMapper;
 import com.novel.dao.SearchMapper;
 import com.novel.model.Pv;
@@ -25,9 +24,6 @@ public class DataService {
 	
 	@Resource(name="searchMapper")
 	private SearchMapper searchMapper;
-	
-	@Resource(name="novelMapper")
-	private NovelMapper novelMapper;
 	
 	@Transactional
 	public Integer batchUpdatePv(List<Pv> pvList) throws Exception {
@@ -46,7 +42,7 @@ public class DataService {
 	
 	@Transactional
 	public NovelCountVo getNovelCount() throws Exception  {
-		return novelMapper.selectCount();
+		return searchMapper.selectCount();
 	}
 	
 	@Transactional

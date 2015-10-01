@@ -19,5 +19,6 @@
 				</div>
 			</form>
 		</div>
+		<div class='backHome'><a href='/Novel/static/index.html'>返回首页 &gt;&gt;</a></div>
 	</div>
 </@com.page>

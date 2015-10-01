@@ -6,15 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.novel.core.listener.SpringContextPathListener;
 import com.novel.model.Pv;
 import com.novel.service.DataService;
+import com.novel.service.NovelService;
 import com.novel.util.JedisCache;
 import com.novel.util.Constants;
 
 public class PvConsumer implements Runnable {
 	
 	private List<Pv> pvQueque = new ArrayList<>();
+	
+	private static Log log = LogFactory.getLog(NovelService.class);
 	
 	/**
 	 * 数据最长缓存时间，当线程运行一定时间以后，强制写入一次
@@ -85,6 +91,7 @@ public class PvConsumer implements Runnable {
 				
 				Thread.sleep(5);
 			} catch (Exception e) {
+				log.error("PV线程出错：<br/>" + e);
 				continue;
 			}
 			

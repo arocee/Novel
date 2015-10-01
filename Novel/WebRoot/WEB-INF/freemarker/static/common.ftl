@@ -19,9 +19,11 @@
 								<a class='navA' href='/Novel/static/detail-${type.id}-${type.articles[0].id}-0.html'>${type.type}<em class='triangle'></em></a>
 								<div class='subNav'>
 									<ol>
-										<#list type.articles as article>
-											<li title='进入${type.type}-${article.article}页面'><a href='/Novel/static/detail-${type.id}-${article.id}-0.html'>${article.article}</a></li>
-										</#list>
+										<#if type.articles??>
+											<#list type.articles as article>
+												<li title='进入${type.type}-${article.article}页面'><a href='/Novel/static/detail-${type.id}-${article.id}-0.html'>${article.article}</a></li>
+											</#list>
+										</#if>
 									</ol>
 								</div>
 							</li>
@@ -77,7 +79,28 @@
 			<a href="#"></a>
 		</li>
 	</ul>
-	<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"5","bdPos":"right","bdTop":"250"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+	<script>
+		window._bd_share_config={
+			"common":{
+				"bdSnsKey":{},
+				"bdText":"",
+				"bdMini":"2",
+				"bdMiniList":false,
+				"bdPic":"",
+				"bdStyle":"0",
+				"bdSize":"16"
+			},
+			"slide":{
+				"type":"slide",
+				"bdImg":"5",
+				"bdPos":"right",
+				"bdTop":"250"
+			}
+		};
+		with(document)0[(getElementsByTagName('head')[0]||body)
+			.appendChild(createElement('script'))
+			.src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	</script>
 	<script src="/javascript/jquery-1.11.1.js"></script>
 	<script src="/javascript/all.js"></script>
 </body>
