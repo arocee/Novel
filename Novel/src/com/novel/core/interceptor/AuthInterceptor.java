@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.novel.model.User;
+import com.novel.model.admin.User;
 
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {

@@ -14,6 +14,22 @@ import java.util.List;
  *
  */
 public class DateHandle {
+	
+	/**
+	 * 获取格式化时间字符串
+	 * @param date
+	 * @param format
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String getFormatedDate(Date date, String format) throws ParseException {
+		if(format == null) {
+			format = "yyyy-MM-dd HH:mm:ss";
+		}
+		DateFormat sf = new SimpleDateFormat(format);
+		
+		return sf.format(date);
+	}
 
 	/**
 	 * 获取之前或之后的某一天
@@ -154,6 +170,12 @@ public class DateHandle {
         return c.getTime();
     }
     
+    /**
+     * 获取一天的范围
+     * @param date
+     * @return
+     * @throws ParseException
+     */
     public static List<Date> getDateRange(String date) throws ParseException {
     	List<Date> dateRange = new ArrayList<>();
     	

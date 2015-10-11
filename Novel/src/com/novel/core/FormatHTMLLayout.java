@@ -118,7 +118,7 @@ public FormatHTMLLayout() {
         sbuf.append("<html>" + Layout.LINE_SEP);   
         sbuf.append("<head>" + Layout.LINE_SEP); 
         
-        sbuf.append("<meta http-equiv='Content-Type' content='text/html; charset=gb2312' />");
+        sbuf.append("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
         sbuf.append("<title>" + title + "</title>" + Layout.LINE_SEP);   
         sbuf.append("<style type=\"text/css\">" + Layout.LINE_SEP);   
         sbuf.append("<!--" + Layout.LINE_SEP);   

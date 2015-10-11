@@ -94,7 +94,8 @@ $(function(){
 
 			sider.css({
 				'left': b_off.left,
-				'top': b_off.top,
+				/*'top': b_off.top,*/
+				'top': 0,
 				'bottom': 'auto',
 				'position': 'fixed'
 			});

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import com.novel.model.Novel;
-import com.novel.model.Search;
+import com.novel.model.admin.Search;
 
 @Component("novelMapper")
 public interface NovelMapper {

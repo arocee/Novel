@@ -36,6 +36,31 @@ input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0px 1000px white inset; 
 	border: 1px solid #CCC!important; 
 }
+input, select {
+	outline: none;
+}
+.triangle {
+	width: 0;
+    height: 0;
+	margin-left: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0;
+	position: absolute;
+	overflow: hidden;
+	z-index: 0;
+}
+.noB {
+	border: none !important;
+}
+.clear {
+	clear: both;
+}
+.emptyTip {
+	line-height: 30px;
+	padding-left: 30px;
+	background: url(/image/admin/common.png) -632px -164px no-repeat;
+}
 /* === 登录页 === */
 .wrapper {
 	position: absolute;
@@ -159,12 +184,7 @@ input:-webkit-autofill {
 	overflow-y: scroll;
 	background: #BBC892;
 	border-left: 1px solid #3c3c3c;
-}
-.noB {
-	border: none !important;
-}
-.clear {
-	clear: both;
+	position: relative;
 }
 .header {
 	height: 38px;
@@ -200,6 +220,28 @@ input:-webkit-autofill {
 	background: #eee;
 	border-top: 1px solid #ccc;
 }
+.cover {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.6;
+	z-index: 99;
+	display: none;
+}
+.loading {
+	width: 260px;
+	height: 68px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	z-index: 101;
+	display: none;
+	margin: -34px 0 0 -130px;
+	background: url(/image/admin/loading.gif);
+}
 /* === 回到顶部 === */
 .tbui_aside_float_bar {
     position: fixed;
@@ -226,28 +268,6 @@ input:-webkit-autofill {
 }
 .tbui_aside_float_bar .tbui_fbar_top a:hover {
   background-position: -165px -110px;
-}
-.cover {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	opacity: 0.6;
-	z-index: 99;
-	display: none;
-}
-.loading {
-	width: 260px;
-	height: 68px;
-	position: fixed;
-	left: 50%;
-	top: 50%;
-	z-index: 101;
-	display: none;
-	margin: -34px 0 0 -130px;
-	background: url(/image/admin/loading.gif);
 }
 /* === 左侧菜单 === */
 .frameLeft h2 {
@@ -312,7 +332,6 @@ input:-webkit-autofill {
 	display: block;
 	color: #fff;
 	text-shadow: 1px 1px 0px #333;
-	/*background: #6CB6B2;*/
 	padding-left: 10px;
 	background-image: -moz-linear-gradient(left, #6CB6B2, #cccccc); /* Firefox */
 	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #6CB6B2), color-stop(1, #cccccc)); /* Saf4+, Chrome */
@@ -320,19 +339,28 @@ input:-webkit-autofill {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6CB6B2', endColorstr='#cccccc', GradientType='1'); /* IE*/
 }
 .frameLeft li a:hover, .frameLeft li.cur a {
-	/*background: #8A8B22;*/
 	background-image: -moz-linear-gradient(left, #8A8B22, #cccccc); /* Firefox */
 	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #8A8B22), color-stop(1, #cccccc)); /* Saf4+, Chrome */
 	background: -ms-linear-gradient(left,  #8A8B22, #cccccc);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8A8B22', endColorstr='#cccccc', GradientType='1'); /* IE*/
 }
-
+.itemHeader {
+	line-height: 50px;
+	margin-bottom: 10px;
+}
+.itemHeader h1 {
+	width: 150px;
+	text-align: center;
+	border-bottom: 3px solid #3FA8D9;
+	font-size: 20px;
+	font-weight: normal;
+}
 /* === 数据统计 === */
 .infoArticle {
 	width: 90%;
 	margin: 10px auto;
 	padding: 10px 2.5%;
-	background: #fff;
+	background: #F4EDD8;
 }
 .infoSection {
 	margin: 15px 0;
@@ -408,6 +436,64 @@ input:-webkit-autofill {
 	text-align: left;
 	padding: 0 10px;
 }
+/* === 日志 === */
+.logType {
+	height: 40px;
+	border-bottom: 3px solid #3FA8D9;
+	width: 98%;
+	margin: 15px auto 0;
+}
+.logType li {
+	float: left;
+	padding: 0 20px;
+	line-height: 34px;
+	height: 34px;
+	text-align: center;
+	background: #3FA8D9;
+	color: #fff;
+	font-size: 16px;
+	margin: 0 2px;
+	margin-top: 6px;
+	border-radius: 4px 4px 0 0;
+	cursor: pointer;
+}
+.logType li:hover {
+	background: #FFCF59;
+}
+.logType li.cur {
+	background: #FFCF59;
+	height: 36px;
+	line-height: 36px;
+	margin-top: 4px;
+}
+.logDate {
+	float: right;
+}
+.logDate label {
+	margin: 0 15px;
+	color: #3FA8D9;
+}
+.logDate select {
+	width: 200px;
+	height: 36px;
+	border: none;
+	border-radius: 4px;
+	padding: 0 10px;
+}
+.logWrapper {
+	position: absolute;
+	top: 115px;
+	bottom: 10px;
+	width: 98%;
+	overflow: scroll;
+	overflow-x: hidden;
+	background: #F4EDD8;
+	left: 50%;
+	margin-left: -49%;
+}
+.log {
+	padding: 10px 15px;
+}
 /* === 数据编辑 === */
 .type_admin, .article_admin, .section_admin, .paragraph_admin {
 	margin: 0 auto;
@@ -450,21 +536,20 @@ input:-webkit-autofill {
 	margin: 0 2px;
 	vertical-align: middle;
 	cursor: pointer;
-	background-image: url(/image/admin/edit.png);
+	background-image: url(/image/admin/common.png);
 	background-repeat: no-repeat;
 }
 .typelist .edit, .articlelist .edit, .sectionlist .edit {
-	background-position: right top;
+	background-position: -11.9px -518.2px;
 }
 .typelist .edit:hover, .articlelist .edit:hover, .sectionlist .edit:hover {
-	background-position: right bottom;	
+	background-position: -11.9px -534.2px;
 }
 .typelist .delete, .articlelist .delete, .sectionlist .delete {
-	
-	background-position: left top;
+	background-position: left -518.2px;
 }
 .typelist .delete:hover, .articlelist .delete:hover, .sectionlist .delete:hover {
-	background-position: left bottom;
+	background-position: left -534.2px;
 }
 .paragraphlist a {
 	display: inline-block;
@@ -608,4 +693,162 @@ input:-webkit-autofill {
 	margin: 10px auto;
 	overflow: auto;
 	height: 200px;
+}
+/* === 用户管理 === */
+.userWrapper {
+	width: 98%;
+	position: absolute;
+	left: 50%;
+	top: 65px;
+	bottom: 15px;
+	overflow: scroll;
+	margin-left: -49%;
+	background: #F4EDD8;
+}
+.userInner {
+	padding: 20px;
+}
+.group {
+	float: right;
+	border: 1px solid #333;
+	text-align: center;
+	width: 140px;
+	line-height: 36px;
+	background: #fff;
+}
+.group h1 {
+	font-weight: normal;
+	color: #fff;
+	line-height: 30px;
+	background: #2EA7E0;
+	font-size: 16px;
+}
+.group li {
+	border-bottom: 1px dashed #333;
+	cursor: pointer;
+	position: relative;
+}
+.group li.cur, .group li:hover {
+	color: #F39800;
+}
+.group li em {
+	display: none;
+	left: 0;
+	top: 10px;
+}
+.group li.cur em {
+	display: inline-block;
+	border-top: 8px dashed transparent;
+    border-bottom: 8px dashed transparent;
+    border-left: 16px solid #F39800;
+}
+.userList {
+	margin-right: 150px;
+}
+.userList table {
+	width: 100%;
+	background: #fff;
+	text-align: center;
+}
+.userList td, .userList th {
+	border: 1px solid #333;
+	line-height: 36px;
+}
+.userList th {
+	line-height: 30px;
+	background: #2EA7E0;
+	color: #fff;
+}
+.userList th:nth-of-type(1) {
+	width: 5%;
+}
+.userList th:nth-of-type(2) {
+	width: 10%;
+}
+.userList th:nth-of-type(3) {
+	width: 15%;
+}
+.userList th:nth-of-type(4) {
+	width: 15%;
+}
+.userList th:nth-of-type(5) {
+	width: 25%;
+}
+.userList th:nth-of-type(6) {
+	width: 30%;
+}
+.userList .emptyTip {
+	display: none;
+}
+.userTotal {
+	line-height: 30px;
+}
+.imgUrl {
+	width: 25px;
+	height: 30px;
+	vertical-align: middle;
+	margin-top: -4px;
+}
+.handle a {
+	display: inline-block;
+	padding: 4px 10px;
+	background: #3FA8D9;
+	color: #fff;
+	border-radius: 2px;
+	line-height: 0;
+	margin: 0 5px;
+}
+.handle a:hover {
+	color: #000;
+}
+.handle a i {
+	display: inline-block;
+	background-image: url(/image/admin/common.png);
+	background-repeat: no-repeat;
+	width: 11px;
+	height: 14px;
+	margin-left: 4px;
+	vertical-align: middle;
+	margin-top: -1px;
+}
+.handle .move i {
+	background-position: -23.1px -518.2px;
+}
+.handle .move:hover i {
+	background-position: -23.1px -534.2px;
+}
+.handle .delete i {
+	background-position: left -518.2px;
+}
+.handle .delete:hover i {
+	background-position: left -534.2px;
+}
+.handle .reset i {
+	background-position: right -191px;
+}
+.handle .reset:hover i {
+	background-position: right -207px;
+}
+.addUser {
+	text-align: left;
+	padding: 5px 15px;
+}
+#addUser {
+	display: inline-block;
+	width: 150px;
+	height: 32px;
+	border-radius: 6px;
+	line-height: 32px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	background: #24556C;
+}
+#addUser:hover {
+	background: #367491;
+}
+.userfield select {
+	width: 60%;
+	height: 20px;
+	margin-top: 5px;
 }

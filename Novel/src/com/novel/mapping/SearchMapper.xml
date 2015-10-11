@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.novel.dao.SearchMapper">
+<mapper namespace="com.novel.dao.admin.SearchMapper">
   <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="64" />
   
   <resultMap id="BaseResultMap" type="Search">

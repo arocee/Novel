@@ -34,6 +34,9 @@
 			</ul>
 		</div>
 		<div class='frameRight' id='frameRight'>
+			<div class='itemHeader'>
+				<h1>${pageName }</h1>
+			</div>
 			<c:choose>
 				<c:when test="${page == 0 }">
 					<c:import url="item/basic.jsp"></c:import>
@@ -85,6 +88,24 @@
 			<div class='treeWrapper'>
 				<ul id="tree" class="ztree"></ul>
 			</div>
+		</div>
+		<div class='fieldfoot'>
+			<a href='javascript:void(0);' class='confirm'>确定</a>
+			<a href='javascript:void(0);' class='cancel'>取消</a>
+		</div>
+	</div>
+	<div class='userfield dialog' id='userfield'>
+		<h1>用户管理</h1>
+		<div class='fieldBody'>
+			<input type='text' name='username' maxlength='10' placeholder='请输入用户名' />
+			<label>所属用户组：</label>
+			<select name='group'>
+				<c:if test="${!empty userRuleVoes }">
+					<c:forEach var='userRuleVo' items='${userRuleVoes }'>
+						<option value='${userRuleVo.id}'>${userRuleVo.description }</option>
+					</c:forEach>
+				</c:if>	
+			</select>
 		</div>
 		<div class='fieldfoot'>
 			<a href='javascript:void(0);' class='confirm'>确定</a>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小说灵感网——管理页面</title>
+<link rel='stylesheet' href='../css/admin.css' />
+</head>
+<body data-page='admin'>
+	<div class='header'>
+		<h1>小说灵感网</h1>
+		<div class='userinfo'>
+			<a href='###'>欢迎你，admin</a> |
+			<a href='javascript:void(0);'>退出登录</a>
+		</div>
+	</div>
+	<div class='frame'>
+		<div class='frameLeft' id='menuList'>
+			<h2 class='cur'><i></i>信息</h2>
+			<ul class='cur'>
+				<li class='cur'><a href='###'>基本信息</a></li>
+				<li><a href='###'>日志查看</a></li>
+			</ul>
+			<h2><i></i>编辑</h2>
+			<ul>
+				<li><a href='###'>数据编辑</a></li>
+			</ul>
+			<h2><i></i>管理</h2>
+			<ul>
+				<li><a href='###'>用户管理</a></li>
+			</ul>
+		</div>
+		<div class='frameRight'>
+			<div class='itemHeader'>
+				<h1>日志查看</h1>
+			</div>
+			<div class='logType'>
+				<ul>
+					<li class='cur' title='查看novel日志'>novel</li>
+					<li title='查看queue日志'>queue</li>
+					<li title='查看util日志'>util</li>
+				</ul>
+				<div class='logDate'>
+					<label for='logDate'>请选择所查看的日志日期：</label>
+					<select name='logDate'>
+						<option selected='selected'>novel.html</option>
+					</select>
+				</div>
+			</div>
+			<div class='logWrapper'>
+				<div class='log' id='log'>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../javascript/require.js"></script>
+	<script src="../javascript/main.js"></script>
+</body>
+</html>

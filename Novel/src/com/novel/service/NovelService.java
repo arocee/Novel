@@ -17,9 +17,9 @@ import com.novel.dao.TypeMapper;
 import com.novel.dao.lucene.LuceneSearch;
 import com.novel.model.Article;
 import com.novel.model.Novel;
-import com.novel.model.Search;
 import com.novel.model.Section;
 import com.novel.model.Type;
+import com.novel.model.admin.Search;
 import com.novel.util.PropertiesUtil;
 
 @Service("novelService")

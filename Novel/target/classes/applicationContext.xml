@@ -120,5 +120,5 @@
 	 	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
   	</bean>
   	
-  	<bean id="dataService" class="com.novel.service.DataService"></bean>
+  	<bean id="dataService" class="com.novel.service.admin.DataService"></bean>
 </beans>

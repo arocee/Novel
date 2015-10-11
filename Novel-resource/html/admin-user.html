@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小说灵感网——管理页面</title>
+<link rel='stylesheet' href='../css/admin.css' />
+</head>
+<body data-page='admin'>
+	<div class='header'>
+		<h1>小说灵感网</h1>
+		<div class='userinfo'>
+			<a href='###'>欢迎你，admin</a> |
+			<a href='javascript:void(0);'>退出登录</a>
+		</div>
+	</div>
+	<div class='frame'>
+		<div class='frameLeft' id='menuList'>
+			<h2 class='cur'><i></i>信息</h2>
+			<ul class='cur'>
+				<li class='cur'><a href='###'>基本信息</a></li>
+				<li><a href='###'>日志查看</a></li>
+			</ul>
+			<h2><i></i>编辑</h2>
+			<ul>
+				<li><a href='###'>数据编辑</a></li>
+			</ul>
+			<h2><i></i>管理</h2>
+			<ul>
+				<li><a href='###'>用户管理</a></li>
+			</ul>
+		</div>
+		<div class='frameRight'>
+			<div class='itemHeader'>
+				<h1>用户管理</h1>
+			</div>
+			<div class='userWrapper'>
+				<div class='userInner'>
+					<div class='group'>
+						<h1>用户分组</h1>
+						<ul>
+							<li><em class='triangle'></em>全部（10）</li>
+							<li class='cur'><em class='triangle'></em>管理员（1）</li>
+							<li><em class='triangle'></em>用户管理（0）</li>
+							<li><em class='triangle'></em>内容编辑（3）</li>
+							<li class='noB'><em class='triangle'></em>游客（6）</li>
+						</ul>
+					</div>
+					<div class='userList'>
+						<table>
+							<tr>
+								<th>编号</th>
+								<th>头像</th>
+								<th>用户名</th>
+								<th>所属分组</th>
+								<th>注册时间</th>
+								<th>操作</th>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td><img class='imgUrl' src='../image/admin/loginBg.jpg' /></td>
+								<td>admin</td>
+								<td>所属分类</td>
+								<td>2014-11-02 19:09:18</td>
+								<td class='handle'>
+									<a class='reset' href='javascript:void(0);' title='重置'>重置密码<i></i></a>
+									<a class='move' href='javascript:void(0);' title='移动'>移动分组<i></i></a>
+									<a class='delete' href='javascript:void(0);' title='删除'>删除用户<i></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td><img class='imgUrl' src='../image/admin/loginBg.jpg' /></td>
+								<td>admin</td>
+								<td>所属分类</td>
+								<td>2014-11-02 19:09:18</td>
+								<td class='handle'>
+									<a class='reset' href='javascript:void(0);' title='重置'>重置密码<i></i></a>
+									<a class='move' href='javascript:void(0);' title='移动'>移动分组<i></i></a>
+									<a class='delete' href='javascript:void(0);' title='删除'>删除用户<i></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td class='addUser' colspan='6'>
+									<a id='addUser' href='javascript:void(0);'>添加用户&nbsp;<i>+</i></a>
+								</td>
+							</tr>
+						</table>
+						<p class='userTotal'>当前用户总数：10</p>
+						<p class='emptyTip'>该组没有用户！</p>
+					</div>
+					<div class='clear'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='userfield dialog'>
+		<h1>用户管理</h1>
+		<div class='fieldBody'>
+			<input type='text' placeholder='请输入用户名' />
+			<label>所属用户组：</label><select></select>
+		</div>
+		<div class='fieldfoot'>
+			<a href='javascript:void(0);' class='confirm'>确定</a>
+			<a href='javascript:void(0);' class='cancel'>取消</a>
+		</div>
+	</div>
+	<script src="../javascript/require.js"></script>
+	<script src="../javascript/main.js"></script>
+</body>
+</html>

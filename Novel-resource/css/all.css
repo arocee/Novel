@@ -248,9 +248,9 @@ html, body {
 .search {
 	float: left;
 	position: relative;
+	width: 310px;
 }
 .query {
-	margin: 0 10px;
 	width: 220px;
 	border: 1px solid #DFDFDF;
 	height: 18px;
@@ -258,7 +258,8 @@ html, body {
 	border-radius: 4px;
 	padding-right: 74px;
 	outline: none;
-	_margin-top: 5px;
+	position: absolute;
+	top: 6px;
 }
 .searchType, #search {
 	position: absolute;
@@ -274,7 +275,7 @@ html, body {
 	width: 25px;
 	height: 25px;
 	right: 17px;
-	top: 8px;
+	top: 7px;
 	border: none;
 	color: transparent;
 	text-indent: -9999px;
@@ -288,7 +289,7 @@ html, body {
 	border: 1px solid #ccc;
 	border-top: none;
 	position: absolute;
-	left: 14px;
+	left: 0;
 	top: 34px;
 	background: #fff;
 	display: none;
@@ -317,7 +318,7 @@ html, body {
 }
 .headFix {
 	height: 39px;
-	_height: 0;
+	_display: none;
 }
 
 /*foot*/
@@ -594,10 +595,14 @@ html, body {
 }
 .paragraphList {
 	background: #F6F7FB;
+	border-top: 1px dashed #249BD8;
 }
 .paragraphList li {
 	padding: 15px 10px;
-	border-bottom: 1px solid #249BD8;
+	border-bottom: 1px dashed #249BD8;
+}
+.paragraphList li:nth-of-type(even) {
+	background: #fff;
 }
 /* ===搜索页=== */
 .searchContent {
@@ -609,9 +614,14 @@ html, body {
 	height: 40px;
 	line-height: 40px;
 }
-.searchInfo .back {
-	color: #249BD8;
+.searchInfo .link {
 	float: right;
+}
+.searchInfo .back, .searchInfo .home {
+	color: #249BD8;
+}
+.searchInfo .back:hover, .searchInfo .home:hover {
+	text-decoration: underline;
 }
 .searchInfo span {
 	display: inline-block;
@@ -732,10 +742,13 @@ html, body {
 	width: 645px;
 	margin: -45px auto 0;
 	text-align: center;
-	font-size: 18px;
+	font-size: 14px;
 }
 .backHome a {
 	color: #2EA7E0;
+}
+.backHome a:hover {
+	text-decoration: underline;
 }
 /*===404和500页===*/
 .errorBody {

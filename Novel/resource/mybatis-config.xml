@@ -19,13 +19,14 @@
 		<typeAlias type="com.novel.model.Section" alias="Section"/>
 		<typeAlias type="com.novel.model.Paragraph" alias="Paragraph"/>
 		<typeAlias type="com.novel.model.Novel" alias="Novel"/>
-		<typeAlias type="com.novel.model.User" alias="User"/>
-		<typeAlias type="com.novel.model.Rule" alias="Rule"/>
-		<typeAlias type="com.novel.model.Search" alias="Search"/>
-		<typeAlias type="com.novel.model.Pv" alias="Pv"/>
+		<typeAlias type="com.novel.model.admin.User" alias="User"/>
+		<typeAlias type="com.novel.model.admin.Rule" alias="Rule"/>
+		<typeAlias type="com.novel.model.admin.Search" alias="Search"/>
+		<typeAlias type="com.novel.model.admin.Pv" alias="Pv"/>
 		<typeAlias type="com.novel.vo.NovelCountVo" alias="NovelCountVo"/>
 		<typeAlias type="com.novel.vo.PvCountVo" alias="PvCountVo"/>
 		<typeAlias type="com.novel.vo.PvVo" alias="PvVo"/>
 		<typeAlias type="com.novel.vo.PvDataVo" alias="PvDataVo"/>
+		<typeAlias type="com.novel.vo.UserRuleVo" alias="UserRuleVo"/>
 	</typeAliases>
 </configuration>

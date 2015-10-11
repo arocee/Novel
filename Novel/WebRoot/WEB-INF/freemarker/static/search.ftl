@@ -3,7 +3,10 @@
 	<div class='body' id='body'>
 		<div class='mainContent searchContent'>
 			<div class='searchInfo'>
-				<a href='/Novel/static/index.html' class='back'>&lt;&lt; 返回首页</a>
+				<div class='link'>
+					<a href='javascript:window.history.back();' class='back'>&lt;&lt; 返回上一页</a>&nbsp;&nbsp;&nbsp;
+					<a href='/Novel/static/index.html' class='home'>返回首页 &gt;&gt;</a>
+				</div>
 				<p><span></span>搜索“${keyWords?html}”的结果，共${count}条</p>
 			</div>
 			<div class='paragraphList'>

@@ -19,6 +19,9 @@
 				</div>
 			</form>
 		</div>
-		<div class='backHome'><a href='/Novel/static/index.html'>返回首页 &gt;&gt;</a></div>
+		<div class='backHome'>
+			<a href='javascript:window.history.back();' class='back'>&lt;&lt; 返回上一页</a>&nbsp;&nbsp;&nbsp;
+			<a href='/Novel/static/index.html'>返回首页 &gt;&gt;</a>
+		</div>
 	</div>
 </@com.page>

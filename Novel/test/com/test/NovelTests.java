@@ -2,8 +2,7 @@ package com.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,15 +26,17 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import com.novel.controller.NovelController;
 import com.novel.dao.ArticleMapper;
 import com.novel.dao.NovelMapper;
-import com.novel.dao.PvMapper;
-import com.novel.dao.SearchMapper;
+import com.novel.dao.admin.PvMapper;
+import com.novel.dao.admin.SearchMapper;
+import com.novel.dao.admin.UserMapper;
 import com.novel.model.Article;
-import com.novel.model.Search;
+import com.novel.model.admin.Search;
 import com.novel.util.DateHandle;
 import com.novel.util.JedisCache;
 import com.novel.util.MD5;
 import com.novel.vo.PvDataVo;
 import com.novel.vo.PvVo;
+import com.novel.vo.UserRuleVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)  
 @WebAppConfiguration  
@@ -60,14 +61,26 @@ public class NovelTests {
 	@Resource
 	private PvMapper pvMapper;
 	
+	@Resource
+	private UserMapper userMapper;
+	
 	private final MockHttpServletRequest request = new MockHttpServletRequest();      
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 	
 	@Test
 	public void testGetPatchList_1() throws Exception {          
-		//Dao鐨勬煇涓柟娉�  
+		//Dao  
 		List<Article> articles = articleMapper.selectList();
 		assertEquals(1, articles.size());
+	}
+	
+	@Test
+	public void testUserMapper() throws Exception {
+		List<UserRuleVo> userRuleVoes = userMapper.selectByRule();
+		for (UserRuleVo userRuleVo : userRuleVoes) {
+			System.out.println(userRuleVo.getDescription());
+			System.out.println("  " + userRuleVo.getUsers().size());
+		}
 	}
 	
 	@Test
@@ -143,9 +156,13 @@ public class NovelTests {
 	
 	@Test
 	public void baseTest() throws Exception {
-		Date date = new Date(1441436858837l);
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(df.format(date));
+		/*System.out.println(URLEncoder.encode("用户名长度在5~10之间","utf-8"));
+		System.out.println(URLEncoder.encode("用户名不能为空","utf-8"));
+		System.out.println(URLEncoder.encode("用户名只能是数字字母或下划线","utf-8"));
+		System.out.println(URLEncoder.encode("密码长度在5~10之间","utf-8"));
+		System.out.println(URLEncoder.encode("密码不能为空","utf-8"));
+		System.out.println(URLEncoder.encode("密码只能是数字字母或下划线","utf-8"));*/
+		System.out.println(URLEncoder.encode("权限不能为空","utf-8"));
 	}
 	
 	@Test

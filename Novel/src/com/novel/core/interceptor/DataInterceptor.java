@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.novel.core.listener.SpringContextPathListener;
-import com.novel.model.Pv;
-import com.novel.model.Search;
+import com.novel.model.admin.Pv;
+import com.novel.model.admin.Search;
 import com.novel.util.Constants;
 
 /**
@@ -23,13 +22,6 @@ public class DataInterceptor extends HandlerInterceptorAdapter  {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		
-		if(!SpringContextPathListener.pvThread.isAlive()){
-			//Constants.pvQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
-			System.err.println("pv线程意外停止");
-			SpringContextPathListener.pvThread.start(); // 重新启动
-		}
-		
 		String url = request.getRequestURL().toString();
 		String ip = getIpAddr(request);
 		
@@ -52,12 +44,6 @@ public class DataInterceptor extends HandlerInterceptorAdapter  {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		if(!SpringContextPathListener.searchThread.isAlive()){
-			//Constants.searchQueque.clear(); // 线程停止就清零 避免线程停止而造成内存浪费
-			System.err.println("search线程意外停止");
-			SpringContextPathListener.searchThread.start();
-		}
-		
 		String url = request.getRequestURL().toString();
 		if(url.endsWith("/static/search")) {
 			if(modelAndView.getModel().get("keyWords") == null 
