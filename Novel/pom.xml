@@ -17,15 +17,15 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>javax.servlet-api</artifactId>
-		<version>3.1.0</version>
-	</dependency>
-    <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>javax.servlet.jsp.jstl</artifactId>
       <version>1.2.2</version>
     </dependency>
+    <dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.1.0</version>
+	</dependency>
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-aop</artifactId>
@@ -177,28 +177,19 @@
 		<version>1.1.0.Final</version>
 	</dependency>
 	<dependency>
-		<groupId>mmseg4j</groupId>
+		<groupId>com.chenlb.mmseg4j</groupId>
 		<artifactId>mmseg4j-core</artifactId>
 		<version>1.10.0</version>
-		<scope>system</scope>
-		<!--本地jar的路径,相对或者绝对都可以-->  
-        <systemPath>H:\各类jar包\mmseg4j\core\mmseg4j-core-1.10.0.jar</systemPath>  
 	</dependency>
 	<dependency>
-		<groupId>mmseg4j</groupId>
+		<groupId>com.chenlb.mmseg4j</groupId>
 		<artifactId>mmseg4j-solr</artifactId>
 		<version>2.3.0</version>
-		<scope>system</scope>
-		<!--本地jar的路径,相对或者绝对都可以-->  
-        <systemPath>H:\各类jar包\mmseg4j\solr\mmseg4j-solr-2.3.0.jar</systemPath>  
 	</dependency>
 	<dependency>
 		<groupId>mysql</groupId>
-		<artifactId>mysql-jdbc</artifactId>
-		<version>1.0.0</version>
-		<scope>system</scope>
-		<!--本地jar的路径,相对或者绝对都可以-->  
-        <systemPath>H:\各类jar包\mysql-jdbc.jar</systemPath>  
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.36</version>
 	</dependency>
   </dependencies>
   <build>
@@ -211,8 +202,22 @@
         </excludes>
       </resource>
     </resources>
-    <pluginManagement>  
     <plugins>
+    	<!-- 编译插件 -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler.version}</version>
+			<configuration>
+				<source>${java.version}</source>
+				<target>${java.version}</target>
+				<encoding>${project.build.sourceEncoding}</encoding>
+			        <compilerArguments>
+			              <verbose />
+				      <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+				</compilerArguments>
+			</configuration>
+		</plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
@@ -220,48 +225,6 @@
           <source>1.7</source>
           <target>1.7</target>
         </configuration>
-      </plugin>
-      <plugin>  
-           <groupId>org.eclipse.m2e</groupId>  
-           <artifactId>lifecycle-mapping</artifactId>  
-           <version>1.0.0</version>  
-           <configuration>  
-               <lifecycleMappingMetadata>  
-                   <pluginExecutions>  
-                       <pluginExecution>  
-                           <pluginExecutionFilter>  
-                               <groupId>org.codehaus.mojo</groupId>  
-                               <artifactId>aspectj-maven-plugin</artifactId>  
-                               <versionRange>[1.0,)</versionRange>  
-                               <goals>  
-                                   <goal>test-compile</goal>  
-                                   <goal>compile</goal>  
-                               </goals>  
-                           </pluginExecutionFilter>  
-                           <action>  
-                               <execute />  
-                           </action>  
-                       </pluginExecution>  
-                   </pluginExecutions>  
-               </lifecycleMappingMetadata>
-           </configuration>  
-       </plugin>  
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>resource</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -273,6 +236,5 @@
         </configuration>
       </plugin>
     </plugins>
-    </pluginManagement>
   </build>
 </project>

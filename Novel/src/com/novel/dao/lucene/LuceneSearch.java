@@ -283,6 +283,7 @@ public class LuceneSearch {
 		// mmseg4j impleAnalyzer complexAnalyzer maxWordAnalyzer MSegAnalyzer
 		analyzer = new ComplexAnalyzer();
 		directory = FSDirectory.open(FileSystems.getDefault().getPath("d:/", "Novel-resource", "lucene", "index", "novelIndex"));
+		//directory = FSDirectory.open(FileSystems.getDefault().getPath("/", "project", "novel", "lucene", "index", "novelIndex"));
 		
 		ireader = DirectoryReader.open(directory);
 		

@@ -1,5 +1,6 @@
 package com.novel.service.admin;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,7 +12,9 @@ import com.novel.dao.admin.RuleMapper;
 import com.novel.dao.admin.UserMapper;
 import com.novel.model.admin.Rule;
 import com.novel.model.admin.User;
+import com.novel.util.DwindlePic;
 import com.novel.util.MD5;
+import com.novel.util.PropertiesUtil;
 import com.novel.vo.UserRuleVo;
 
 @Service("userService")
@@ -71,5 +74,32 @@ public class UserService {
 	@Transactional(readOnly=true)
 	public List<UserRuleVo> queryUserByRule() throws Exception {
 		return userMapper.selectByRule();
+	}
+	
+	public User uploadPhoto(InputStream in, float left, float top, float areaWidth, float areaHeight, float width, float height, String extensions, User user) throws Exception {
+		// 对图片进行缩放
+		DwindlePic dwindlePic = new DwindlePic();
+		
+		String imgurl = dwindlePic.handle(in, left, top, areaWidth, areaHeight, width, height, extensions, user.getUsername());
+		
+		User u = new User();
+		
+		u.setId(user.getId());
+		u.setImgurl(imgurl);
+		
+		try {
+			userMapper.updateByPrimaryKeySelective(u);
+			// 删除旧的图片
+			if(!user.getImgurl().equals(PropertiesUtil.getPropertyValue("default.tou"))){
+				dwindlePic.deleteFile(user.getImgurl()); 
+			}
+		} catch (Exception e) {
+			dwindlePic.deleteFile(imgurl); // 删除失败的图片
+			throw e;
+		}
+		
+		user.setImgurl(imgurl);
+		
+		return user;
 	}
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.novel.dao.TypeMapper" >
   <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="32" readOnly="true" />
   
-  <resultMap id="BaseResultMap" type="Type" >
+  <resultMap id="BaseResultMap" type="Type">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <collection property="articles" column="tid" resultMap="com.novel.dao.ArticleMapper.BaseResultMap" columnPrefix="art_"></collection>

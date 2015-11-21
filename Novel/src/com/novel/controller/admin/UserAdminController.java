@@ -168,7 +168,7 @@ public class UserAdminController {
 	private Map<String, Object> validate(BindingResult bindingResult, User admin) throws Exception {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		
-		if(admin.getRule() != 1 && admin.getRule() != 3){
+		if(admin.getRule() != Constants.adminRule && admin.getRule() != Constants.adduserRule){
 			modelMap.put("success", false);
 			modelMap.put("msg", "没有权限");
 		} else if(bindingResult.hasErrors()) {

@@ -3,7 +3,7 @@
 <mapper namespace="com.novel.dao.admin.UserMapper" >
   <cache eviction="LRU" type="com.novel.core.mybatisenhancedcache.MybatisRedisCache" flushInterval="60000" size="32" />
   
-  <resultMap id="BaseResultMap" type="User" >
+  <resultMap id="BaseResultMap" type="User">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />

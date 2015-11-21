@@ -30,7 +30,7 @@
 			<h2 data-menu='manage'><i></i>管理</h2>
 			<ul data-menu='manage'>
 				<li data-menu='user'><a href='/Novel/admin/main?page=3'>用户管理</a></li>
-				<li data-menu='member'><a href='/Novel/admin/main?page=4'>个人管理</a></li>
+				<li data-menu='myinfo'><a href='/Novel/admin/main?page=4'>个人管理</a></li>
 			</ul>
 		</div>
 		<div class='frameRight' id='frameRight'>
@@ -51,7 +51,7 @@
 					<c:import url="item/user.jsp"></c:import>
 				</c:when>
 				<c:when test="${page == 4 }">
-					<c:import url="item/member.jsp"></c:import>
+					<c:import url="item/myinfo.jsp"></c:import>
 				</c:when>
 			</c:choose>
 		</div>
@@ -135,7 +135,9 @@
 			<script src="/javascript/admin/user.js"></script>
 		</c:when>
 		<c:when test="${page == 4 }">
-			<script src="/javascript/admin/member.js"></script>
+			<link rel='stylesheet' href='/css/jcrop/jquery.Jcrop.min.css' />
+			<link rel='stylesheet' href='/css/admin.css' />
+			<script src="/javascript/admin/myinfo.js"></script>
 		</c:when>
 	</c:choose>
   </body>

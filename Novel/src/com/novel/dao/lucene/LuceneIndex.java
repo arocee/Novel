@@ -145,6 +145,7 @@ public class LuceneIndex {
 		// mmseg4j 有几个 analyzer：SimpleAnalyzer、ComplexAnalyzer、MaxWordAnalyzer、MMSegAnalyzer。
 		analyzer = new ComplexAnalyzer();
 		directory = FSDirectory.open(FileSystems.getDefault().getPath("d:", "Novel-resource", "lucene", "index", "novelIndex"));
+		//directory = FSDirectory.open(FileSystems.getDefault().getPath("/", "project", "novel", "lucene", "index", "novelIndex"));
 		
 		config = new IndexWriterConfig(analyzer);
 		

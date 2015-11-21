@@ -32,7 +32,7 @@
 					<c:forEach var="user" items="${userRuleVo.users }">
 						<tr class='users' data-username='${user.username }' data-groupid='${userRuleVo.id }' data-id='${user.id }'>
 							<td>${user.id }</td>
-							<td><img class='imgUrl' src='${user.imgurl }' /></td>
+							<td><img class='imgUrl' src='/upload/tou/${user.imgurl }' /></td>
 							<td>${user.username }</td>
 							<td>${userRuleVo.description }</td>
 							<td><fmt:formatDate value="${user.regtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
