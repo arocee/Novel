@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>小说灵感网——管理页面</title>
+<link rel='stylesheet' href='../css/jcrop/jquery.Jcrop.min.css' />
+<link rel='stylesheet' href='../css/admin.css' />
+</head>
+<body data-page='admin'>
+	<div class='header'>
+		<h1>小说灵感网</h1>
+		<div class='userinfo'>
+			<a href='###'>欢迎你，admin</a> |
+			<a href='javascript:void(0);'>退出登录</a>
+		</div>
+	</div>
+	<div class='frame'>
+		<div class='frameLeft' id='menuList'>
+			<h2 class='cur'><i></i>信息</h2>
+			<ul class='cur'>
+				<li class='cur'><a href='###'>基本信息</a></li>
+				<li><a href='###'>日志查看</a></li>
+			</ul>
+			<h2><i></i>编辑</h2>
+			<ul>
+				<li><a href='###'>数据编辑</a></li>
+			</ul>
+			<h2><i></i>管理</h2>
+			<ul>
+				<li><a href='###'>用户管理</a></li>
+			</ul>
+		</div>
+		<div class='frameRight'>
+			<div class='itemHeader'>
+				<h1>上传头像</h1>
+			</div>
+			<div class='photoWrapper'>
+				<div class='photoInner'>
+					<form action="" id='tou_form' method="post" enctype="multipart/form-data">
+						<input type='hidden' name='left' />
+						<input type='hidden' name='top' />
+						<input type='hidden' name='width' />
+						<input type='hidden' name='height' />
+						<input type='hidden' name='areaWidth' />
+						<input type='hidden' name='areaHeight' />
+						<div class='photoUploadArea'>
+							<div class='uploadPhoto' id='uploadPhoto'>
+								<img src='../image/admin/touming.png' id='uploadedImg' />
+							</div>
+							<div class='uploadHandle'>
+								<div>
+									<input type='file' id='file' name='tou' /><br />
+									<label for='file'>支持图片格式：jpg、jpeg、png、gif，建议尺寸：120 * 160</label>
+								</div>
+								<div>
+									<a href='javascript:void(0);' id='upload' class='disabled'>点击上传</a>
+									<p class='emptyTip' id='photoErrorTip'></p>
+								</div>
+							</div>
+						</div>
+						<div class='photoStatusArea'>
+							<div class='preview'>
+								<div class='previewWrapper'>
+									<img src='../image/admin/touming.png' id='preview' />
+								</div>
+								<p>头像预览</p>
+							</div>
+							<div class='curPhoto'>
+								<div>
+									<img id='curPhoto' src='../image/admin/tou.jpg' />
+								</div>
+								<p>当前头像</p>
+							</div>
+						</div>
+						<span id='size_image'></span>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../javascript/admin/require.js"></script>
+	<script src="../javascript/admin/main.js"></script>
+	<script src="../javascript/admin/myinfo.js"></script>
+</body>
+</html>

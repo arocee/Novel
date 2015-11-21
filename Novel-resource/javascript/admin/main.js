@@ -1,12 +1,28 @@
 require.config({
     //配置angular的路径
-	baseUrl: '/javascript',
+	baseUrl: '/javascript',  // TODO 路径
     paths:{
 		"jquery": "jquery-1.11.1",
 		"echarts": "echarts/build/dist",
 		"ztree": "admin/jquery.ztree.core-3.5",
-		'migrate': 'admin/jquery-migrate-1.2.1'
-    }
+		'migrate': 'admin/jquery-migrate-1.2.1',
+		'jcrop': 'admin/jquery.Jcrop',
+		'form': 'admin/jquery.form'
+    },
+	shim: {
+		'jcrop': {
+			deps: ['jquery'],
+　　　　　　exports: 'jcrop'
+		},
+		'ztree': {
+			deps: ['jquery'],
+　　　　　　exports: 'ztree'
+		},
+		'migrate': {
+			deps: ['jquery'],
+　　　　　　exports: 'migrate'
+		}
+	}
 });
 
 require(['jquery'], function($) {
@@ -23,7 +39,7 @@ require(['jquery'], function($) {
 	} else if(page == 3) {
 		$('#frameLeft').find('[data-menu=manage], [data-menu=user]').addClass('cur now');
 	} else if(page == 4) {
-		$('#frameLeft').find('[data-menu=manage], [data-menu=member]').addClass('cur now');
+		$('#frameLeft').find('[data-menu=manage], [data-menu=myinfo]').addClass('cur now');
 	}
 
 	/* ajax全局设置 */

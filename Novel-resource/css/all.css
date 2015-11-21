@@ -569,7 +569,6 @@ html, body {
 .sider li a:hover {
 	background: #249BD8;
 	color: #fff;
-	text-decoration: underline;
 }
 .mainContent {
 	margin-left: 155px;

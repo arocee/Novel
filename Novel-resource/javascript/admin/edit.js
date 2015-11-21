@@ -19,7 +19,7 @@ require(['jquery', 'migrate', 'ztree'], function($) {
 
 		var _this = this;
 
-		$('#cover').fadeIn();
+		$('#cover').stop().fadeIn();
 		$('#addfield').find('.par').html(par).end().find('.clazz').html(clazz).end().find('input[name=name]').val('').end().fadeIn(function(){
 			if($(_this).is('#addArticle')) {
 				addModel = "addArticle";
@@ -44,7 +44,7 @@ require(['jquery', 'migrate', 'ztree'], function($) {
 		dataInit(); // 复位数据
 
 		$(this).parents('.dialog').fadeOut();
-		$('#cover').fadeOut();
+		$('#cover').stop().fadeOut();
 	});
 
 	/* 回车提交 */
